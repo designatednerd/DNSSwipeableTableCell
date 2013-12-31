@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F583880A1870C82800EF72DA /* DNSSwipeableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F58388091870C82800EF72DA /* DNSSwipeableCell.m */; };
 		F5C72C05184771F90019502F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5C72C04184771F90019502F /* Foundation.framework */; };
 		F5C72C07184771F90019502F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5C72C06184771F90019502F /* CoreGraphics.framework */; };
 		F5C72C09184771F90019502F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5C72C08184771F90019502F /* UIKit.framework */; };
@@ -35,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F58388081870C82800EF72DA /* DNSSwipeableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DNSSwipeableCell.h; sourceTree = "<group>"; };
+		F58388091870C82800EF72DA /* DNSSwipeableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DNSSwipeableCell.m; sourceTree = "<group>"; };
 		F5C72C01184771F90019502F /* DNSSwipeableCell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DNSSwipeableCell.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5C72C04184771F90019502F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F5C72C06184771F90019502F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -120,6 +123,8 @@
 				F5C72C16184771F90019502F /* Main.storyboard */,
 				F5C72C19184771F90019502F /* MasterViewController.h */,
 				F5C72C1A184771F90019502F /* MasterViewController.m */,
+				F58388081870C82800EF72DA /* DNSSwipeableCell.h */,
+				F58388091870C82800EF72DA /* DNSSwipeableCell.m */,
 				F5C72C1C184771F90019502F /* DetailViewController.h */,
 				F5C72C1D184771F90019502F /* DetailViewController.m */,
 				F5C72C1F184771F90019502F /* Images.xcassets */,
@@ -256,6 +261,7 @@
 			files = (
 				F5C72C15184771F90019502F /* AppDelegate.m in Sources */,
 				F5C72C1B184771F90019502F /* MasterViewController.m in Sources */,
+				F583880A1870C82800EF72DA /* DNSSwipeableCell.m in Sources */,
 				F5C72C11184771F90019502F /* main.m in Sources */,
 				F5C72C1E184771F90019502F /* DetailViewController.m in Sources */,
 			);
@@ -466,6 +472,7 @@
 				F5C72C38184771F90019502F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F5C72C39184771F90019502F /* Build configuration list for PBXNativeTarget "DNSSwipeableCellTests" */ = {
 			isa = XCConfigurationList;
@@ -474,6 +481,7 @@
 				F5C72C3B184771F90019502F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
