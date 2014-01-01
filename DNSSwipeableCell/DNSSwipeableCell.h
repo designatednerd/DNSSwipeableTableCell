@@ -11,10 +11,14 @@
 @protocol DNSSwipeableCellDelegate <NSObject>
 - (void)buttonOneActionForItemText:(NSString *)itemText;
 - (void)buttonTwoActionForItemText:(NSString *)itemText;
+- (void)cellDidBeginEditing:(UITableViewCell *)cell;
+- (void)cellDidEndEditing:(UITableViewCell *)cell;
 @end
 
 @interface DNSSwipeableCell : UITableViewCell
 
 @property (nonatomic, strong) NSString *itemText;
 @property (nonatomic, weak) id <DNSSwipeableCellDelegate> delegate;
+
+- (void)openCell;
 @end

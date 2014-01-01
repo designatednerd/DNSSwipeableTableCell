@@ -14,6 +14,7 @@
 @interface MasterViewController () <DNSSwipeableCellDelegate> {
     NSMutableArray *_objects;
 }
+@property (nonatomic, strong) NSMutableArray *cellsCurrentlyEditing;
 @end
 
 @implementation MasterViewController
@@ -24,11 +25,12 @@
 
     //Initialize the mutable array so you can add stuff to it.
     _objects = [NSMutableArray array];
+    _cellsCurrentlyEditing = [NSMutableArray array];
     
     //Create a whole bunch of string objects, and add them to the array.
     NSInteger numberOfItems = 30;
     for (NSInteger i = 1; i <= numberOfItems; i++) {
-        NSString *item = [NSString stringWithFormat:@"Item #%d", i];
+        NSString *item = [NSString stringWithFormat:@"Longer Title Item #%d", i];
         [_objects addObject:item];
     }
 }
@@ -53,6 +55,10 @@
     cell.itemText = item;
     cell.delegate = self;
     
+    if ([self.cellsCurrentlyEditing containsObject:indexPath]) {
+        [cell openCell];
+    }
+    
     return cell;
 }
 
@@ -76,22 +82,6 @@
         NSLog(@"Unhandled editing style! %d", editingStyle);
     }
 }
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -134,6 +124,17 @@
 - (void)buttonTwoActionForItemText:(NSString *)itemText
 {
     [self showDetailWithText:[NSString stringWithFormat:@"Clicked button two for %@", itemText]];
+}
+
+- (void)cellDidBeginEditing:(UITableViewCell *)cell
+{
+    NSIndexPath *currentEditingIndexPath = [self.tableView indexPathForCell:cell];
+    [self.cellsCurrentlyEditing addObject:currentEditingIndexPath];
+}
+
+- (void)cellDidEndEditing:(UITableViewCell *)cell
+{
+    [self.cellsCurrentlyEditing removeObject:[self.tableView indexPathForCell:cell]];
 }
 
 @end
