@@ -16,7 +16,6 @@
 @property (nonatomic, weak) IBOutlet UILabel *myTextLabel;
 @property (nonatomic, strong) UIPanGestureRecognizer *panHelper;
 @property (nonatomic, assign) CGPoint panStartPoint;
-@property (nonatomic, assign) CGFloat snapPoint;
 @property (nonatomic, assign) CGFloat startingRightLayoutConstraintConstant;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *contentViewRightConstraint;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *contentViewLeftConstraint;
@@ -91,17 +90,37 @@ static CGFloat kBounceValue = 20;
             if (self.startingRightLayoutConstraintConstant == 0) {
                 //The cell was closed and is now opening
                 if (!panningLeft) {
-                    self.contentViewRightConstraint.constant = MAX(-deltaX, 0);
+                    CGFloat constant = MAX(-deltaX, 0);
+                    if (constant == 0) {
+                        [self resetContentOffsetsToZero:YES endEditing:NO];
+                    } else {
+                        self.contentViewRightConstraint.constant = MAX(-deltaX, 0);
+                    }
                 } else {
-                    self.contentViewRightConstraint.constant = MIN(-deltaX, [self buttonTotalWidth]);
+                    CGFloat constant = MIN(-deltaX, [self buttonTotalWidth]);
+                    if (constant == [self buttonTotalWidth]) {
+                        [self setContentOffsetsToShowAllButtons:YES beginEditing:NO];
+                    } else {
+                        self.contentViewRightConstraint.constant = constant;
+                    }
                 }
             } else {
                 //The cell is at least partially open.
                 CGFloat adjustment = self.startingRightLayoutConstraintConstant - deltaX;
                 if (!panningLeft) {
-                    self.contentViewRightConstraint.constant = MAX(adjustment, 0);
+                    CGFloat constant = MAX(adjustment, 0);
+                    if (constant == 0) {
+                        [self resetContentOffsetsToZero:YES endEditing:NO];
+                    } else {
+                        self.contentViewRightConstraint.constant = constant;
+                    }
                 } else {
-                    self.contentViewRightConstraint.constant = MIN(adjustment, [self buttonTotalWidth]);
+                    CGFloat constant = MIN(adjustment, [self buttonTotalWidth]);
+                    if (constant == [self buttonTotalWidth]) {
+                        [self setContentOffsetsToShowAllButtons:YES beginEditing:NO];
+                    } else {
+                        self.contentViewRightConstraint.constant = constant;
+                    }
                 }
             }
             
@@ -152,7 +171,8 @@ static CGFloat kBounceValue = 20;
         [self.delegate cellDidBeginEditing:self];
     }
     
-    if (self.contentViewRightConstraint.constant == [self buttonTotalWidth]) {
+    if (self.startingRightLayoutConstraintConstant == [self buttonTotalWidth] &&
+        self.contentViewRightConstraint.constant == [self buttonTotalWidth]) {
         //Already all the way open, no bounce necessary
         return;
     }
@@ -169,7 +189,9 @@ static CGFloat kBounceValue = 20;
         self.contentViewLeftConstraint.constant = -[self buttonTotalWidth];
         self.contentViewRightConstraint.constant = [self buttonTotalWidth];
         
-        [self updateConstraintsIfNeeded:duration completion:nil];
+        [self updateConstraintsIfNeeded:duration completion:^(BOOL finished) {
+            self.startingRightLayoutConstraintConstant = self.contentViewRightConstraint.constant;
+        }];
     }];
 }
 
@@ -183,7 +205,8 @@ static CGFloat kBounceValue = 20;
     if (endEditing) {
         [self.delegate cellDidEndEditing:self];
     }
-    if (self.contentViewLeftConstraint.constant == 0) {
+    if (self.startingRightLayoutConstraintConstant == 0 &&
+        self.contentViewRightConstraint.constant == 0) {
         //Already all the way closed, no bounce necessary
         return;
     }
@@ -200,7 +223,9 @@ static CGFloat kBounceValue = 20;
         self.contentViewRightConstraint.constant = 0;
         self.contentViewLeftConstraint.constant = 0;
         
-        [self updateConstraintsIfNeeded:duration completion:nil];
+        [self updateConstraintsIfNeeded:duration completion:^(BOOL finished) {
+            self.startingRightLayoutConstraintConstant = self.contentViewRightConstraint.constant;
+        }];
     }];
 }
 
