@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13B3116" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="rS3-R9-Ivy">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="rS3-R9-Ivy">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
@@ -35,30 +35,6 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uIN-ef-W1U">
-                                            <rect key="frame" x="261" y="0.0" width="59" height="43"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <color key="backgroundColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
-                                            <state key="normal" title="Button 1">
-                                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="buttonClicked:" destination="m0d-ak-lc9" eventType="touchUpInside" id="K0H-ZW-rkW"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HUL-tp-CbC">
-                                            <rect key="frame" x="202" y="0.0" width="59" height="43"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <state key="normal" title="Button 2">
-                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="buttonClicked:" destination="m0d-ak-lc9" eventType="touchUpInside" id="2mo-05-9ku"/>
-                                            </connections>
-                                        </button>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y3Q-G9-1E3" userLabel="Upper Content View">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -72,32 +48,23 @@
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" priority="999" constant="320" id="8aF-jy-egs"/>
                                                 <constraint firstItem="Htv-gZ-YZH" firstAttribute="centerY" secondItem="y3Q-G9-1E3" secondAttribute="centerY" id="EOh-Lt-oqb"/>
                                                 <constraint firstItem="Htv-gZ-YZH" firstAttribute="leading" secondItem="y3Q-G9-1E3" secondAttribute="leading" constant="20" symbolic="YES" id="f5H-gY-NPw"/>
-                                                <constraint firstItem="Htv-gZ-YZH" firstAttribute="top" secondItem="y3Q-G9-1E3" secondAttribute="top" constant="11" id="hpi-Rn-inw"/>
                                             </constraints>
                                         </view>
                                     </subviews>
+                                    <color key="backgroundColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
-                                        <constraint firstItem="HUL-tp-CbC" firstAttribute="top" secondItem="pPB-jn-U1A" secondAttribute="top" id="2p7-F5-BPL"/>
-                                        <constraint firstItem="uIN-ef-W1U" firstAttribute="top" secondItem="pPB-jn-U1A" secondAttribute="top" id="8ey-Ft-TiW"/>
-                                        <constraint firstAttribute="bottom" secondItem="uIN-ef-W1U" secondAttribute="bottom" id="Aa1-4b-0C1"/>
-                                        <constraint firstAttribute="bottom" secondItem="HUL-tp-CbC" secondAttribute="bottom" id="CMu-Lh-9yh"/>
                                         <constraint firstAttribute="bottom" secondItem="y3Q-G9-1E3" secondAttribute="bottom" id="HxS-54-31W"/>
                                         <constraint firstAttribute="trailing" secondItem="y3Q-G9-1E3" secondAttribute="trailing" id="Qhz-YM-dtb"/>
-                                        <constraint firstItem="uIN-ef-W1U" firstAttribute="leading" secondItem="HUL-tp-CbC" secondAttribute="trailing" id="e46-YX-sAf"/>
                                         <constraint firstItem="y3Q-G9-1E3" firstAttribute="top" secondItem="pPB-jn-U1A" secondAttribute="top" id="fDQ-YA-9Yv"/>
-                                        <constraint firstAttribute="trailing" secondItem="uIN-ef-W1U" secondAttribute="trailing" id="s6D-Qp-hBO"/>
                                         <constraint firstItem="y3Q-G9-1E3" firstAttribute="leading" secondItem="pPB-jn-U1A" secondAttribute="leading" id="wtc-hF-0bd"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <outlet property="button1" destination="uIN-ef-W1U" id="Jqo-gr-rsJ"/>
-                                    <outlet property="button2" destination="HUL-tp-CbC" id="sOg-aj-nPx"/>
-                                    <outlet property="contentViewLeftConstraint" destination="wtc-hF-0bd" id="7L4-JB-YDa"/>
-                                    <outlet property="contentViewRightConstraint" destination="Qhz-YM-dtb" id="OwQ-4l-ufr"/>
+                                    <outlet property="contentViewLeftConstraint" destination="wtc-hF-0bd" id="c01-UC-7GJ"/>
+                                    <outlet property="contentViewRightConstraint" destination="Qhz-YM-dtb" id="kqa-ib-PKl"/>
                                     <outlet property="myContentView" destination="y3Q-G9-1E3" id="0OQ-jm-FeC"/>
                                     <outlet property="myTextLabel" destination="Htv-gZ-YZH" id="P8B-Uc-3ff"/>
                                     <segue destination="Ah7-4n-0Wa" kind="push" identifier="showDetail" id="jUr-3t-vfg"/>

@@ -2,7 +2,7 @@
 //  MasterViewController.m
 //  DNSSwipeableCell
 //
-//  Created by Transferred on 11/28/13.
+//  Created by Ellen Shapiro on 11/28/13.
 //  Copyright (c) 2013 Designated Nerd Software. All rights reserved.
 //
 
@@ -11,10 +11,13 @@
 #import "DetailViewController.h"
 #import "DNSSwipeableCell.h"
 
-@interface MasterViewController () <DNSSwipeableCellDelegate> {
-    NSMutableArray *_objects;
-}
+@interface MasterViewController () <DNSSwipeableCellDelegate, DNSSwipeableCellDataSource>
+
 @property (nonatomic, strong) NSMutableArray *cellsCurrentlyEditing;
+@property (nonatomic, strong) NSMutableArray *objects;
+@property (nonatomic, strong) NSArray *backgroundColors;
+@property (nonatomic, strong) NSArray *textColors;
+
 @end
 
 @implementation MasterViewController
@@ -25,7 +28,7 @@
 
     //Initialize the mutable array so you can add stuff to it.
     _objects = [NSMutableArray array];
-    _cellsCurrentlyEditing = [NSMutableArray array];
+    self.cellsCurrentlyEditing = [NSMutableArray array];
     
     //Create a whole bunch of string objects, and add them to the array.
     NSInteger numberOfItems = 30;
@@ -33,6 +36,18 @@
         NSString *item = [NSString stringWithFormat:@"Longer Title Item #%d", i];
         [_objects addObject:item];
     }
+    
+    self.backgroundColors = @[[UIColor blueColor],
+                              [UIColor greenColor],
+                              [UIColor orangeColor],
+                              [UIColor darkGrayColor],
+                              [UIColor purpleColor],
+                              [UIColor lightGrayColor],
+                              [UIColor yellowColor]];
+    
+    self.textColors = @[[UIColor whiteColor],
+                        [UIColor blackColor]];
+    
 }
 
 #pragma mark - Table View
@@ -44,19 +59,22 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _objects.count;
+    return self.objects.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DNSSwipeableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
-    NSString *item = _objects[indexPath.row];
+    NSString *item = self.objects[indexPath.row];
     cell.itemText = item;
+    cell.indexPath = indexPath;
+    cell.dataSource = self;
     cell.delegate = self;
+    [cell configureButtons];
     
     if ([self.cellsCurrentlyEditing containsObject:indexPath]) {
-        [cell openCell];
+        [cell openCell:NO];
     }
     
     return cell;
@@ -64,7 +82,7 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Return NO if you do not want the specified item to be editable.
+    //This needs to return NO or you'll only get the stock delete button.
     return NO;
 }
 
@@ -81,6 +99,8 @@
         //what sort of editing style you also need to handle.
         NSLog(@"Unhandled editing style! %d", editingStyle);
     }
+    
+    [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.5];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -91,8 +111,95 @@
         [[segue destinationViewController] setDetailItem:object];
     }
 }
+#pragma mark - DNSSwipeableCellDataSource
+
+- (NSInteger)numberOfButtonsInSwipeableCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row % 2 == 0) {
+        //Even rows have 2 options
+        return 2;
+    } else {
+        //Odd rows 3 options
+        return 3;
+    }
+}
+
+- (NSString *)titleForButtonAtIndex:(NSInteger)index inCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch (index) {
+        case 0:
+            return NSLocalizedString(@"Delete", @"Delete");
+            break;
+        case 1:
+            return NSLocalizedString(@"Option 1", @"Option 1");
+            break;
+        case 2:
+            return NSLocalizedString(@"Option 2", @"Option 2");
+            break;
+        default:
+            break;
+    }
+    
+    return nil;
+}
+
+- (UIColor *)backgroundColorForButtonAtIndex:(NSInteger)index inCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch (index) {
+        case 0:
+            return [UIColor redColor];
+            break;
+        default: {
+            //Note that the random index means colors won't persist after recycling.
+            NSInteger randomIndex = floorf (arc4random() % self.backgroundColors.count);
+            return self.backgroundColors[randomIndex];
+        }
+            break;
+    }
+}
+
+- (UIColor *)textColorForButtonAtIndex:(NSInteger)index inCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch (index) {
+        case 0:
+            return self.textColors[0];
+            break;
+        default: {
+            //Note that the random index means colors won't persist after recycling.
+            NSInteger randomIndex = floorf(arc4random() % self.textColors.count);
+            return self.textColors[randomIndex];
+       }
+            break;
+    }
+}
+
 
 #pragma mark - DNSSwipeableCellDelegate
+
+- (void)swipeableCell:(DNSSwipeableCell *)cell didSelectButtonAtIndex:(NSInteger)index
+{
+    if (index == 0) {
+        [self.cellsCurrentlyEditing removeObject:cell.indexPath];
+        [self tableView:self.tableView commitEditingStyle:UITableViewCellEditingStyleDelete forRowAtIndexPath:cell.indexPath];
+    } else {
+        NSString *textForCellButton = [self titleForButtonAtIndex:index inCellAtIndexPath:cell.indexPath];
+        [self showDetailWithText:textForCellButton];
+    }
+}
+
+- (void)cellDidOpen:(DNSSwipeableCell *)cell
+{
+    [self.cellsCurrentlyEditing addObject:cell.indexPath];
+}
+
+- (void)cellDidClose:(DNSSwipeableCell *)cell
+{
+    [self.cellsCurrentlyEditing removeObject:cell.indexPath];
+}
+
+
+#pragma mark - Detail view
+
 - (void)showDetailWithText:(NSString *)detailText
 {
     //Instantiate the DetailVC out of the storyboard.
@@ -104,7 +211,7 @@
     //Setup nav controller to contain the detail vc.
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:detail];
     
-    //Setup button to close the detail VC.
+    //Setup button to close the detail VC (will call the method below.
     UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(closeModal)];
     [detail.navigationItem setRightBarButtonItem:done];
     
@@ -116,25 +223,5 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)buttonOneActionForItemText:(NSString *)itemText
-{
-    [self showDetailWithText:[NSString stringWithFormat:@"Clicked button one for %@", itemText]];
-}
-
-- (void)buttonTwoActionForItemText:(NSString *)itemText
-{
-    [self showDetailWithText:[NSString stringWithFormat:@"Clicked button two for %@", itemText]];
-}
-
-- (void)cellDidBeginEditing:(UITableViewCell *)cell
-{
-    NSIndexPath *currentEditingIndexPath = [self.tableView indexPathForCell:cell];
-    [self.cellsCurrentlyEditing addObject:currentEditingIndexPath];
-}
-
-- (void)cellDidEndEditing:(UITableViewCell *)cell
-{
-    [self.cellsCurrentlyEditing removeObject:[self.tableView indexPathForCell:cell]];
-}
 
 @end

@@ -2,7 +2,7 @@
 //  DNSSwipeableCellTests.m
 //  DNSSwipeableCellTests
 //
-//  Created by Transferred on 11/28/13.
+//  Created by Ellen Shapiro on 11/28/13.
 //  Copyright (c) 2013 Designated Nerd Software. All rights reserved.
 //
 
@@ -24,11 +24,6 @@
 {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
-}
-
-- (void)testExample
-{
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
 }
 
 @end
