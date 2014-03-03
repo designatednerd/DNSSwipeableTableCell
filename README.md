@@ -15,8 +15,9 @@ I've refactored the code that was included in the tutorial, which is is more mea
 * Cleaned up the master VC quite a bit
 
 ##TODOs
-* Figure out a way to not have to store the index path on the cell itself. It's way easier, but it feels dirty.[^1]
+* [Figure](id:footnote1) out a way to not have to store the index path on the cell itself. It's way easier, but it feels dirty.([1](#footnotes))
 * Add a more configurable main content view that can still be recycled, or at least add instructions and an example for subclassing to achieve this. 
 * Remove dependency on setting up some of this stuff in a storyboard. 
 
-[^1]: [I know, I know](http://shirt.woot.com/offers/she-is-reported-to-have-said-that-before).
+---
+([1](id:footnotes)): [I know, I know](http://shirt.woot.com/offers/she-is-reported-to-have-said-that-before). ([<-](#footnote1))
