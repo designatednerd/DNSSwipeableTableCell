@@ -58,6 +58,31 @@
  */
 - (UIColor *)textColorForButtonAtIndex:(NSInteger)index inCellAtIndexPath:(NSIndexPath *)indexPath;
 
+@optional
+/**
+ * Configures the font size for a button at a given index. 
+ *
+ * REMEMBER: Button indexes will be right to left since that's the way the cell
+ * slides open - for example | index 2  index 1  index 0 |.
+ *
+ * @param index - The index of the button for which this should be the font size, in points.
+ * @param indexPath - The index path for the cell in which to display said button. 
+ * @return The font point size you wish to display.
+ */
+- (CGFloat)fontSizeForButtonAtIndex:(NSInteger)index inCellAtIndexPath:(NSIndexPath *)indexPath;
+
+/**
+ * Configures a specified font using the font name for a button at a given index. 
+ *
+ * REMEMBER: Button indexes will be right to left since that's the way the cell
+ * slides open - for example | index 2  index 1  index 0 |.
+ *
+ * @param index - The index of the button for which the named font should be the font
+ * @param indexPath - The index path for the cell in which to display said button. 
+ * @return The font name for the button at the given index.
+ */
+- (NSString *)fontNameForButtonAtIndex:(NSInteger)index inCellAtIndexPath:(NSIndexPath *)indexPath;
+
 @end
 
 #pragma mark - Delegate

@@ -99,20 +99,48 @@
 
 - (UIButton *)buttonForIndex:(NSInteger)index previousButtonMinX:(CGFloat)previousMinX inCellAtIndexPath:(NSIndexPath *)indexPath
 {
+    //Create button with mandatory aspects
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.backgroundColor = [self.dataSource backgroundColorForButtonAtIndex:index inCellAtIndexPath:indexPath];
     [button setTitleColor:[self.dataSource textColorForButtonAtIndex:index inCellAtIndexPath:indexPath] forState:UIControlStateNormal];
     [button setTitle:[self.dataSource titleForButtonAtIndex:index inCellAtIndexPath:indexPath] forState:UIControlStateNormal];
     [button setContentEdgeInsets:UIEdgeInsetsMake(0, 8, 0, 8)];
+    
+    //Setup font if needed
+    CGFloat fontPointSize = 0;
+    if ([self.dataSource respondsToSelector:@selector(fontSizeForButtonAtIndex:inCellAtIndexPath:)]) {
+        fontPointSize = [self.dataSource fontSizeForButtonAtIndex:index inCellAtIndexPath:indexPath];
+    }
+    
+    NSString *fontName = nil;
+    if ([self.dataSource respondsToSelector:@selector(fontNameForButtonAtIndex:inCellAtIndexPath:)]) {
+        fontName = [self.dataSource fontNameForButtonAtIndex:index inCellAtIndexPath:indexPath];
+    }
+    
+    if (fontPointSize > 0 && fontName != nil) {
+        //Custom font name and point size
+        button.titleLabel.font = [UIFont fontWithName:fontName size:fontPointSize];
+    } else if (fontPointSize > 0) {
+        //No custom font name, but custom point size
+        button.titleLabel.font = [UIFont fontWithName:button.titleLabel.font.fontName size:fontPointSize];
+    } else if (fontName != nil) {
+        //No custom point size, but custom font name
+        button.titleLabel.font = [UIFont fontWithName:fontName size:button.titleLabel.font.pointSize];
+    } //else do nothing, neither is set.
+
+    
+    //Size it to fit the contents
     [button sizeToFit];
     
+    //Update the origin and size to make sure that everything is the size it needs to be
     CGFloat xOrigin = previousMinX - CGRectGetWidth(button.frame);
     button.frame = CGRectMake(xOrigin, 0, CGRectGetWidth(button.frame), CGRectGetHeight(self.frame));
     
+    //Add tap target
     [button addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     if (xOrigin < 40) {
-        NSLog(@"ATTENTION! Button at index %d at index path %@ is going to leave less than 40 points of space!", index, indexPath);
+        NSLog(@"***ATTENTION!*** Button at index %d at index path %@ is going to leave less than 40 points of space! That's going to be hard to close.", index, indexPath);
     }
     
     return button;

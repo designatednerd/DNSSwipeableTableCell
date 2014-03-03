@@ -114,6 +114,7 @@
 
 #pragma mark - DNSSwipeableCellDataSource
 
+#pragma mark Required Methods
 - (NSInteger)numberOfButtonsInSwipeableCellAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row % 2 == 0) {
@@ -173,6 +174,19 @@
             break;
     }
 }
+
+#pragma mark Optional Methods
+//Uncomment the optional methods to muck around with them. 
+//- (CGFloat)fontSizeForButtonAtIndex:(NSInteger)index inCellAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return 12.0f;
+//}
+//
+//- (NSString *)fontNameForButtonAtIndex:(NSInteger)index inCellAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    //List of fonts available on iOS 7: http://support.apple.com/kb/HT5878
+//    return @"AmericanTypewriter";
+//}
 
 #pragma mark - DNSSwipeableCellDelegate
 
