@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9BF394EB18C433CD00E1CB12 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 9BF394EA18C433CD00E1CB12 /* README.md */; };
 		F583880A1870C82800EF72DA /* DNSSwipeableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F58388091870C82800EF72DA /* DNSSwipeableCell.m */; };
 		F5C72C05184771F90019502F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5C72C04184771F90019502F /* Foundation.framework */; };
 		F5C72C07184771F90019502F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5C72C06184771F90019502F /* CoreGraphics.framework */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9BF394EA18C433CD00E1CB12 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		F58388081870C82800EF72DA /* DNSSwipeableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DNSSwipeableCell.h; sourceTree = "<group>"; };
 		F58388091870C82800EF72DA /* DNSSwipeableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DNSSwipeableCell.m; sourceTree = "<group>"; };
 		F5C72C01184771F90019502F /* DNSSwipeableCell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DNSSwipeableCell.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +90,7 @@
 		F5C72BF8184771F80019502F = {
 			isa = PBXGroup;
 			children = (
+				9BF394EA18C433CD00E1CB12 /* README.md */,
 				F5C72C0A184771F90019502F /* DNSSwipeableCell */,
 				F5C72C2C184771F90019502F /* DNSSwipeableCellTests */,
 				F5C72C03184771F90019502F /* Frameworks */,
@@ -240,6 +243,7 @@
 			files = (
 				F5C72C20184771F90019502F /* Images.xcassets in Resources */,
 				F5C72C0F184771F90019502F /* InfoPlist.strings in Resources */,
+				9BF394EB18C433CD00E1CB12 /* README.md in Resources */,
 				F5C72C18184771F90019502F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

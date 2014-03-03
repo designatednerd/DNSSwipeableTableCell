@@ -171,10 +171,23 @@
 
 #pragma mark - Constraint animation
 
+#pragma mark Public
+- (void)openCell:(BOOL)animated
+{
+    [self setConstraintsToShowAllButtons:animated notifyDelegateDidOpen:NO];
+}
+
+- (void)closeCell:(BOOL)animated
+{
+    [self resetConstraintContstantsToZero:animated notifyDelegateDidClose:NO];
+}
+
+#pragma mark Private
+
 - (void)setConstraintsToShowAllButtons:(BOOL)animated notifyDelegateDidOpen:(BOOL)notifyDelegate
 {
     if (notifyDelegate) {
-        [self.delegate cellDidOpen:self];
+        [self.delegate swipeableCellDidOpen:self];
     }
     
     CGFloat buttonTotalWidth = [self buttonTotalWidth];
@@ -192,15 +205,12 @@
     }];
 }
 
-- (void)openCell:(BOOL)animated
-{
-    [self setConstraintsToShowAllButtons:animated notifyDelegateDidOpen:NO];
-}
+
 
 - (void)resetConstraintContstantsToZero:(BOOL)animated notifyDelegateDidClose:(BOOL)notifyDelegate
 {
     if (notifyDelegate) {
-        [self.delegate cellDidClose:self];
+        [self.delegate swipeableCellDidClose:self];
     }
     if (self.startingRightLayoutConstraintConstant == 0 &&
         self.contentViewRightConstraint.constant == 0) {

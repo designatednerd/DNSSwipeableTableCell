@@ -53,7 +53,6 @@
                                             </constraints>
                                         </view>
                                     </subviews>
-                                    <color key="backgroundColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="bottom" secondItem="y3Q-G9-1E3" secondAttribute="bottom" id="HxS-54-31W"/>
                                         <constraint firstAttribute="trailing" secondItem="y3Q-G9-1E3" secondAttribute="trailing" id="Qhz-YM-dtb"/>

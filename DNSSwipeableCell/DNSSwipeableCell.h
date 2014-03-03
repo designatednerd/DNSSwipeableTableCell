@@ -10,6 +10,7 @@
 
 @class DNSSwipeableCell;
 
+#pragma mark - Data Source
 @protocol DNSSwipeableCellDataSource <NSObject>
 @required
 /**
@@ -22,7 +23,7 @@
 /**
  * The title for the button at a given index in a particular swipeable cell.
  *
- * REMEMBER: Button index paths will be right to left since that's the way the cell
+ * REMEMBER: Button indexes will be right to left since that's the way the cell
  * slides open - for example | index 2  index 1  index 0 |.
  * 
  * @param index - The index of the button for which this string should be the title.
@@ -35,7 +36,7 @@
  * The color for the background of a button at the given index in a swipeable cell at 
  * the given index path.
  * 
- * REMEMBER: Button index paths will be right to left since that's the way the cell
+ * REMEMBER: Button indexes will be right to left since that's the way the cell
  * slides open - for example | index 2  index 1  index 0 |.
  *
  * @param index - The index of the button for which this color should be the backgroundColor.
@@ -48,7 +49,7 @@
  * The color for the text of a button at the given index in a swipeable cell at
  * the given index path.
  *
- * REMEMBER: Button index paths will be right to left since that's the way the cell
+ * REMEMBER: Button indexes will be right to left since that's the way the cell
  * slides open - for example | index 2  index 1  index 0 |.
  *
  * @param index - The index of the button for which this color should be the text color.
@@ -59,29 +60,70 @@
 
 @end
 
+#pragma mark - Delegate
 @protocol DNSSwipeableCellDelegate <NSObject>
+
+/**
+ * Notifies the delegate that a particular button was selected.
+ *
+ * REMEMBER: Button indexes will be right to left since that's the way the cell
+ * slides open - for example | index 2  index 1  index 0 |.
+ *
+ * @param cell - The cell sending this message
+ * @param index - The index of the button selected.
+ */
 - (void)swipeableCell:(DNSSwipeableCell *)cell didSelectButtonAtIndex:(NSInteger)index;
-- (void)cellDidOpen:(DNSSwipeableCell *)cell;
-- (void)cellDidClose:(DNSSwipeableCell *)cell;
+
+/**
+ * Notifies the delegate that a particular cell did open, to facilitate the delegate's
+ * management of which cells are open and which cells are closed.
+ * @param cell - The swipeable cell which opened.
+ */
+- (void)swipeableCellDidOpen:(DNSSwipeableCell *)cell;
+
+/**
+ * Notifies the delegate that a particular cell did close, to facilitate the delegate's 
+ * management of which cells are open and which cells are closed.
+ * @param cell - The swipeable cell which closed.
+ */
+- (void)swipeableCellDidClose:(DNSSwipeableCell *)cell;
 
 @end
 
 
+#pragma mark - Actual Class
 /**
  * ZOMG THE ACTUAL CLASS
  */
 @interface DNSSwipeableCell : UITableViewCell
 
+//The item text to display
 @property (nonatomic, strong) NSString *itemText;
 
-//Always remember to reset the index path when the cell gets recycled, or you'll get weird behavior.
+//Always remember to reset the index path when the cell gets recycled, or the
+//configuration won't work.
 @property (nonatomic, strong) NSIndexPath *indexPath;
 
-
+//The delegate and datasource.
 @property (nonatomic, weak) id <DNSSwipeableCellDelegate> delegate;
 @property (nonatomic, weak) id <DNSSwipeableCellDataSource> dataSource;
 
+/**
+ * Slides the cell to all the way open. 
+ * @param animated - YES if the cell opening should be animated, NO if not.
+ */
 - (void)openCell:(BOOL)animated;
+
+/**
+ * Slides the cell all the way closed.
+ * @param animated - YES if the cell closing should be animated, NO if not.
+ */
+- (void)closeCell:(BOOL)animated;
+
+
+/**
+ * Actually configures the buttons for each cell. Call this method when you're recycling cells.
+ */
 - (void)configureButtons;
 
 @end

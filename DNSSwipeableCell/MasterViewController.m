@@ -22,6 +22,8 @@
 
 @implementation MasterViewController
 
+#pragma mark - View Lifecycle
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -37,6 +39,7 @@
         [_objects addObject:item];
     }
     
+    //Create arrays of random background and text colors
     self.backgroundColors = @[[UIColor blueColor],
                               [UIColor greenColor],
                               [UIColor orangeColor],
@@ -64,15 +67,21 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //Recycle!
     DNSSwipeableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
+    //
     NSString *item = self.objects[indexPath.row];
     cell.itemText = item;
+    
+    //Set up the buttons
     cell.indexPath = indexPath;
     cell.dataSource = self;
     cell.delegate = self;
+    
     [cell configureButtons];
     
+    //Reopen the cell if it was already editing
     if ([self.cellsCurrentlyEditing containsObject:indexPath]) {
         [cell openCell:NO];
     }
@@ -103,14 +112,6 @@
     [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.5];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = _objects[indexPath.row];
-        [[segue destinationViewController] setDetailItem:object];
-    }
-}
 #pragma mark - DNSSwipeableCellDataSource
 
 - (NSInteger)numberOfButtonsInSwipeableCellAtIndexPath:(NSIndexPath *)indexPath
@@ -173,7 +174,6 @@
     }
 }
 
-
 #pragma mark - DNSSwipeableCellDelegate
 
 - (void)swipeableCell:(DNSSwipeableCell *)cell didSelectButtonAtIndex:(NSInteger)index
@@ -183,22 +183,31 @@
         [self tableView:self.tableView commitEditingStyle:UITableViewCellEditingStyleDelete forRowAtIndexPath:cell.indexPath];
     } else {
         NSString *textForCellButton = [self titleForButtonAtIndex:index inCellAtIndexPath:cell.indexPath];
-        [self showDetailWithText:textForCellButton];
+        NSString *textForCell = self.objects[cell.indexPath.row];
+        [self showDetailWithText:[NSString stringWithFormat:@"%@: %@", textForCell, textForCellButton]];
     }
 }
 
-- (void)cellDidOpen:(DNSSwipeableCell *)cell
+- (void)swipeableCellDidOpen:(DNSSwipeableCell *)cell
 {
     [self.cellsCurrentlyEditing addObject:cell.indexPath];
 }
 
-- (void)cellDidClose:(DNSSwipeableCell *)cell
+- (void)swipeableCellDidClose:(DNSSwipeableCell *)cell
 {
     [self.cellsCurrentlyEditing removeObject:cell.indexPath];
 }
 
-
 #pragma mark - Detail view
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"showDetail"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        NSDate *object = _objects[indexPath.row];
+        [[segue destinationViewController] setDetailItem:object];
+    }
+}
 
 - (void)showDetailWithText:(NSString *)detailText
 {
