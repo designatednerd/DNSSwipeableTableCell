@@ -102,7 +102,6 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
     cell.dataSource = self;
     cell.delegate = self;
     
-    [cell configureButtons];
     [cell setNeedsUpdateConstraints];
     
     //Reopen the cell if it was already editing

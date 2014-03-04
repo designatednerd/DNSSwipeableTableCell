@@ -10,6 +10,10 @@
 
 FOUNDATION_EXPORT CGFloat const kExampleCellHeight;
 
+/**
+ * This subclass is an example of how you can subclass DNSSwipeableCell to create your own
+ * custom cells that can still be properly recycled.
+ */
 @interface DNSExampleImageViewCell : DNSSwipeableCell
 
 @property (nonatomic, strong) UIImageView *exampleImageView;

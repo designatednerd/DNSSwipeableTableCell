@@ -146,12 +146,8 @@
 - (void)closeCell:(BOOL)animated;
 
 /**
- * Actually configures the buttons for each cell. Call this method when you're recycling cells.
- */
-- (void)configureButtons;
-
-/**
- * Initialization methods which are called no matter which initializer is called.
+ * Initialization methods which are called no matter which initializer is called. Should 
+ * only be overridden by subclasses and not called directly. 
  */
 - (void)commonInit;
 

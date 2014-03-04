@@ -8,11 +8,13 @@
 
 #import "DNSExampleImageViewCell.h"
 
+//Public constants
 CGFloat const kExampleCellHeight = 100.0f;
 
-CGFloat const kExampleCellLeftMargin = 15.0f;
-CGFloat const kExampleCellRightMargin = 20.0f;
-CGFloat const kBetweenViewsMargin = 8.0f;
+//Private constants
+static CGFloat const kExampleCellLeftMargin = 15.0f;
+static CGFloat const kExampleCellRightMargin = 20.0f;
+static CGFloat const kBetweenViewsMargin = 8.0f;
 
 @interface DNSExampleImageViewCell()
 

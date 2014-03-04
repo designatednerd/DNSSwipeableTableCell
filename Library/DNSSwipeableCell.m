@@ -128,6 +128,13 @@
     [self.contentView bringSubviewToFront:self.myContentView];
 }
 
+- (void)configureButtonsIfNeeded
+{
+    if (self.buttons.count == 0) {
+        [self configureButtons];
+    }
+}
+
 - (UIButton *)buttonForIndex:(NSInteger)index previousButtonMinX:(CGFloat)previousMinX inCellAtIndexPath:(NSIndexPath *)indexPath
 {
     //Create button with mandatory aspects
@@ -223,11 +230,13 @@
 #pragma mark Public
 - (void)openCell:(BOOL)animated
 {
+    [self configureButtonsIfNeeded];
     [self setConstraintsToShowAllButtons:animated notifyDelegateDidOpen:NO];
 }
 
 - (void)closeCell:(BOOL)animated
 {
+    [self configureButtonsIfNeeded];
     [self resetConstraintContstantsToZero:animated notifyDelegateDidClose:NO];
 }
 
@@ -253,8 +262,6 @@
         self.startingRightLayoutConstraintConstant = self.contentViewRightConstraint.constant;
     }];
 }
-
-
 
 - (void)resetConstraintContstantsToZero:(BOOL)animated notifyDelegateDidClose:(BOOL)notifyDelegate
 {
@@ -305,6 +312,7 @@
 {
     switch (recognizer.state) {
         case UIGestureRecognizerStateBegan:
+            [self configureButtonsIfNeeded];
             self.panStartPoint = [recognizer translationInView:self.myContentView];
             self.startingRightLayoutConstraintConstant = self.contentViewRightConstraint.constant;
             break;
