@@ -9,16 +9,19 @@
 #import "MasterViewController.h"
 
 #import "DetailViewController.h"
-#import "DNSSwipeableCell.h"
+#import "DNSExampleImageViewCell.h"
 
 @interface MasterViewController () <DNSSwipeableCellDelegate, DNSSwipeableCellDataSource>
 
 @property (nonatomic, strong) NSMutableArray *cellsCurrentlyEditing;
-@property (nonatomic, strong) NSMutableArray *objects;
+@property (nonatomic, strong) NSMutableArray *itemTitles;
 @property (nonatomic, strong) NSArray *backgroundColors;
 @property (nonatomic, strong) NSArray *textColors;
+@property (nonatomic, strong) NSArray *imageNames;
 
 @end
+
+static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
 
 @implementation MasterViewController
 
@@ -27,17 +30,28 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    //Register the custom subclass
+    [self.tableView registerClass:[DNSExampleImageViewCell class] forCellReuseIdentifier:kDNSExampleImageCellIdentifier];
 
     //Initialize the mutable array so you can add stuff to it.
-    _objects = [NSMutableArray array];
+    _itemTitles = [NSMutableArray array];
     self.cellsCurrentlyEditing = [NSMutableArray array];
     
     //Create a whole bunch of string objects, and add them to the array.
     NSInteger numberOfItems = 30;
     for (NSInteger i = 1; i <= numberOfItems; i++) {
         NSString *item = [NSString stringWithFormat:@"Longer Title Item #%d", i];
-        [_objects addObject:item];
+        [_itemTitles addObject:item];
     }
+    
+    //Create an array of image names
+    self.imageNames = @[ @"annoyed.jpg",
+                         @"dancer.jpg",
+                         @"ontivo.jpg",
+                         @"red.jpg",
+                         @"sandwichthief.jpg",
+                         @"super.jpg"];
     
     //Create arrays of random background and text colors
     self.backgroundColors = @[[UIColor blueColor],
@@ -60,19 +74,28 @@
     return 1;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return kExampleCellHeight;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.objects.count;
+    return self.itemTitles.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //Recycle!
-    DNSSwipeableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    DNSExampleImageViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDNSExampleImageCellIdentifier forIndexPath:indexPath];
 
-    //
-    NSString *item = self.objects[indexPath.row];
-    cell.itemText = item;
+
+    //Setup the label and image
+    NSString *textItem = self.itemTitles[indexPath.row];
+    NSString *imageName = self.imageNames[indexPath.row % self.imageNames.count];
+    UIImage *image = [UIImage imageNamed:imageName];
+    cell.exampleLabel.text = textItem;
+    cell.exampleImageView.image = image;
     
     //Set up the buttons
     cell.indexPath = indexPath;
@@ -80,6 +103,7 @@
     cell.delegate = self;
     
     [cell configureButtons];
+    [cell setNeedsUpdateConstraints];
     
     //Reopen the cell if it was already editing
     if ([self.cellsCurrentlyEditing containsObject:indexPath]) {
@@ -99,7 +123,7 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         //Deletes the object from the array
-        [_objects removeObjectAtIndex:indexPath.row];
+        [_itemTitles removeObjectAtIndex:indexPath.row];
         
         //Deletes the row from the tableView.
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -175,6 +199,13 @@
     }
 }
 
+#pragma mark - UITableViewDelegate 
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self showDetailForIndexPath:indexPath fromDelegateButtonAtIndex:-1];
+}
+
 #pragma mark Optional Methods
 //Uncomment the optional methods to muck around with them. 
 //- (CGFloat)fontSizeForButtonAtIndex:(NSInteger)index inCellAtIndexPath:(NSIndexPath *)indexPath
@@ -196,9 +227,7 @@
         [self.cellsCurrentlyEditing removeObject:cell.indexPath];
         [self tableView:self.tableView commitEditingStyle:UITableViewCellEditingStyleDelete forRowAtIndexPath:cell.indexPath];
     } else {
-        NSString *textForCellButton = [self titleForButtonAtIndex:index inCellAtIndexPath:cell.indexPath];
-        NSString *textForCell = self.objects[cell.indexPath.row];
-        [self showDetailWithText:[NSString stringWithFormat:@"%@: %@", textForCell, textForCellButton]];
+        [self showDetailForIndexPath:cell.indexPath fromDelegateButtonAtIndex:index];
     }
 }
 
@@ -214,31 +243,38 @@
 
 #pragma mark - Detail view
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = _objects[indexPath.row];
-        [[segue destinationViewController] setDetailItem:object];
-    }
-}
-
-- (void)showDetailWithText:(NSString *)detailText
+- (void)showDetailForIndexPath:(NSIndexPath *)indexPath fromDelegateButtonAtIndex:(NSInteger)buttonIndex
 {
     //Instantiate the DetailVC out of the storyboard.
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     DetailViewController *detail = [storyboard instantiateViewControllerWithIdentifier:@"DetailViewController"];
-    detail.title = @"In the delegate!";
-    detail.detailItem = detailText;
+    NSString *title = self.itemTitles[indexPath.row];
+    if (buttonIndex != -1) {
+        NSString *textForCellButton = [self titleForButtonAtIndex:buttonIndex inCellAtIndexPath:indexPath];
+        title = [NSString stringWithFormat:@"%@: %@", title, textForCellButton];
+    } else {
+        title = self.itemTitles[indexPath.row];
+    }
+
+    detail.detailText = title;
+    NSString *imageName = self.imageNames[indexPath.row % self.imageNames.count];
+    detail.detailImage = [UIImage imageNamed:imageName];
     
-    //Setup nav controller to contain the detail vc.
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:detail];
-    
-    //Setup button to close the detail VC (will call the method below.
-    UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(closeModal)];
-    [detail.navigationItem setRightBarButtonItem:done];
-    
-    [self presentViewController:navController animated:YES completion:nil];
+    if (buttonIndex == -1) {
+        detail.title = @"Selected!";
+        [self.navigationController pushViewController:detail animated:YES];
+    } else {
+        //Present modally
+        detail.title = @"In the delegate!";
+        
+        //Setup nav controller to contain the detail vc.
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:detail];
+        
+        //Setup button to close the detail VC (will call the method below.
+        UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(closeModal)];
+        [detail.navigationItem setRightBarButtonItem:done];
+        [self presentViewController:navController animated:YES completion:nil];
+    }
 }
 
 - (void)closeModal

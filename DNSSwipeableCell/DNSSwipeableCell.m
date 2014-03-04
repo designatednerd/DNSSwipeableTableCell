@@ -11,13 +11,11 @@
 @interface DNSSwipeableCell() <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) NSMutableArray *buttons;
-@property (nonatomic, weak) IBOutlet UIView *myContentView;
-@property (nonatomic, weak) IBOutlet UILabel *myTextLabel;
 @property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;
 @property (nonatomic, assign) CGPoint panStartPoint;
 @property (nonatomic, assign) CGFloat startingRightLayoutConstraintConstant;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint *contentViewRightConstraint;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint *contentViewLeftConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *contentViewRightConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *contentViewLeftConstraint;
 
 @end
 
@@ -26,8 +24,24 @@
 #pragma mark - Initialization
 - (void)commonInit
 {
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     //Setup button array
     self.buttons = [NSMutableArray array];
+    
+    //setup content view
+    self.myContentView = [[UIView alloc] init];
+    self.myContentView.userInteractionEnabled = YES;
+    self.myContentView.clipsToBounds = YES;
+
+    self.myContentView.backgroundColor = [UIColor whiteColor];
+    self.myContentView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.contentView addSubview:self.myContentView];
+    
+    //Setup pan gesture recognizer
+    self.panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panThisCell:)];
+    self.panRecognizer.delegate = self;
+    [self.myContentView addGestureRecognizer:self.panRecognizer];
 }
 
 - (id)init
@@ -58,14 +72,30 @@
 }
 
 #pragma mark - Cell Lifecycle
-- (void)awakeFromNib
+
+- (void)updateConstraints
 {
-    [super awakeFromNib];
-    
-    //Setup pan gesture recognizer
-    self.panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panThisCell:)];
-    self.panRecognizer.delegate = self;
-    [self.myContentView addGestureRecognizer:self.panRecognizer];
+    [super updateConstraints];
+    if (!self.contentViewLeftConstraint) {
+        NSDictionary *views = @{ @"myContentView" : self.myContentView };
+        
+        NSArray *verticalConstraints = [NSLayoutConstraint
+                                        constraintsWithVisualFormat:@"V:|[myContentView]|"
+                                        options:0
+                                        metrics:nil
+                                        views:views];
+        [self.contentView addConstraints:verticalConstraints];
+        
+        NSArray *horizontalConstraints = [NSLayoutConstraint
+                                          constraintsWithVisualFormat:@"H:|[myContentView]|"
+                                          options:0
+                                          metrics:0
+                                          views:views];
+        self.contentViewLeftConstraint = horizontalConstraints[0];
+        self.contentViewRightConstraint = horizontalConstraints[1];
+        
+        [self.contentView addConstraints:horizontalConstraints];
+    }
 }
 
 - (void)prepareForReuse
@@ -83,6 +113,7 @@
 }
 
 #pragma mark - Button Config
+
 - (void)configureButtons
 {
     CGFloat previousMinX = CGRectGetWidth(self.frame);
@@ -160,16 +191,6 @@
         NSLog(@"NOT A BUTTON!");
     }
 }
-
-- (void)setItemText:(NSString *)itemText
-{
-    //Update the instance variable
-    _itemText = itemText;
-    
-    //Set the text to the custom label.
-    self.myTextLabel.text = itemText;
-}
-
 
 #pragma mark - Measurement convenience methods
 

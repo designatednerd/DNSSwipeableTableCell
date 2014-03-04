@@ -9,29 +9,38 @@
 #import "DetailViewController.h"
 
 @interface DetailViewController ()
-- (void)configureView;
+@property (nonatomic, weak) IBOutlet UIImageView *imageView;
+@property (nonatomic, weak) IBOutlet UILabel *detailDescriptionLabel;
+
 @end
 
 @implementation DetailViewController
 
 #pragma mark - Managing the detail item
 
-- (void)setDetailItem:(id)newDetailItem
+- (void)setDetailImage:(UIImage *)detailImage
 {
-    if (_detailItem != newDetailItem) {
-        _detailItem = newDetailItem;
-        
-        // Update the view.
-        [self configureView];
-    }
+    _detailImage = detailImage;
+    // Update the view.
+    [self configureView];
+}
+
+- (void)setDetailText:(NSString *)detailText
+{
+    _detailText = detailText;
+    [self configureView];
 }
 
 - (void)configureView
 {
     // Update the user interface for the detail item.
 
-    if (self.detailItem) {
-        self.detailDescriptionLabel.text = [self.detailItem description];
+    if (self.detailImage) {
+        self.imageView.image = self.detailImage;
+    }
+    
+    if (self.detailText) {
+        self.detailDescriptionLabel.text = self.detailText;
     }
 }
 

@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		9BF394EB18C433CD00E1CB12 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 9BF394EA18C433CD00E1CB12 /* README.md */; };
+		9BF394EE18C58B0600E1CB12 /* DNSExampleImageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BF394ED18C58B0600E1CB12 /* DNSExampleImageViewCell.m */; };
+		9BF394F618C58D6300E1CB12 /* annoyed.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9BF394F018C58D6300E1CB12 /* annoyed.jpg */; };
+		9BF394F718C58D6300E1CB12 /* dancer.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9BF394F118C58D6300E1CB12 /* dancer.jpg */; };
+		9BF394F818C58D6300E1CB12 /* ontivo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9BF394F218C58D6300E1CB12 /* ontivo.jpg */; };
+		9BF394F918C58D6300E1CB12 /* red.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9BF394F318C58D6300E1CB12 /* red.jpg */; };
+		9BF394FA18C58D6300E1CB12 /* sandwichthief.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9BF394F418C58D6300E1CB12 /* sandwichthief.jpg */; };
+		9BF394FB18C58D6300E1CB12 /* super.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9BF394F518C58D6300E1CB12 /* super.jpg */; };
+		9BF394FD18C5A0DD00E1CB12 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9BF394FC18C5A0DD00E1CB12 /* Assets.xcassets */; };
 		F583880A1870C82800EF72DA /* DNSSwipeableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F58388091870C82800EF72DA /* DNSSwipeableCell.m */; };
 		F5C72C05184771F90019502F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5C72C04184771F90019502F /* Foundation.framework */; };
 		F5C72C07184771F90019502F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5C72C06184771F90019502F /* CoreGraphics.framework */; };
@@ -18,7 +26,6 @@
 		F5C72C18184771F90019502F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5C72C16184771F90019502F /* Main.storyboard */; };
 		F5C72C1B184771F90019502F /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5C72C1A184771F90019502F /* MasterViewController.m */; };
 		F5C72C1E184771F90019502F /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5C72C1D184771F90019502F /* DetailViewController.m */; };
-		F5C72C20184771F90019502F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5C72C1F184771F90019502F /* Images.xcassets */; };
 		F5C72C27184771F90019502F /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5C72C26184771F90019502F /* XCTest.framework */; };
 		F5C72C28184771F90019502F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5C72C04184771F90019502F /* Foundation.framework */; };
 		F5C72C29184771F90019502F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5C72C08184771F90019502F /* UIKit.framework */; };
@@ -38,6 +45,15 @@
 
 /* Begin PBXFileReference section */
 		9BF394EA18C433CD00E1CB12 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		9BF394EC18C58B0600E1CB12 /* DNSExampleImageViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DNSExampleImageViewCell.h; sourceTree = "<group>"; };
+		9BF394ED18C58B0600E1CB12 /* DNSExampleImageViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DNSExampleImageViewCell.m; sourceTree = "<group>"; };
+		9BF394F018C58D6300E1CB12 /* annoyed.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = annoyed.jpg; sourceTree = "<group>"; };
+		9BF394F118C58D6300E1CB12 /* dancer.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dancer.jpg; sourceTree = "<group>"; };
+		9BF394F218C58D6300E1CB12 /* ontivo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ontivo.jpg; sourceTree = "<group>"; };
+		9BF394F318C58D6300E1CB12 /* red.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = red.jpg; sourceTree = "<group>"; };
+		9BF394F418C58D6300E1CB12 /* sandwichthief.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sandwichthief.jpg; sourceTree = "<group>"; };
+		9BF394F518C58D6300E1CB12 /* super.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = super.jpg; sourceTree = "<group>"; };
+		9BF394FC18C5A0DD00E1CB12 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../Assets.xcassets; sourceTree = "<group>"; };
 		F58388081870C82800EF72DA /* DNSSwipeableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DNSSwipeableCell.h; sourceTree = "<group>"; };
 		F58388091870C82800EF72DA /* DNSSwipeableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DNSSwipeableCell.m; sourceTree = "<group>"; };
 		F5C72C01184771F90019502F /* DNSSwipeableCell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DNSSwipeableCell.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,7 +71,6 @@
 		F5C72C1A184771F90019502F /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 		F5C72C1C184771F90019502F /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		F5C72C1D184771F90019502F /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
-		F5C72C1F184771F90019502F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		F5C72C25184771F90019502F /* DNSSwipeableCellTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DNSSwipeableCellTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5C72C26184771F90019502F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		F5C72C2E184771F90019502F /* DNSSwipeableCellTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DNSSwipeableCellTests-Info.plist"; sourceTree = "<group>"; };
@@ -87,6 +102,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9BF394EF18C58D6300E1CB12 /* instagrams */ = {
+			isa = PBXGroup;
+			children = (
+				9BF394F018C58D6300E1CB12 /* annoyed.jpg */,
+				9BF394F118C58D6300E1CB12 /* dancer.jpg */,
+				9BF394F218C58D6300E1CB12 /* ontivo.jpg */,
+				9BF394F318C58D6300E1CB12 /* red.jpg */,
+				9BF394F418C58D6300E1CB12 /* sandwichthief.jpg */,
+				9BF394F518C58D6300E1CB12 /* super.jpg */,
+			);
+			path = instagrams;
+			sourceTree = "<group>";
+		};
 		F5C72BF8184771F80019502F = {
 			isa = PBXGroup;
 			children = (
@@ -126,11 +154,14 @@
 				F5C72C16184771F90019502F /* Main.storyboard */,
 				F5C72C19184771F90019502F /* MasterViewController.h */,
 				F5C72C1A184771F90019502F /* MasterViewController.m */,
-				F58388081870C82800EF72DA /* DNSSwipeableCell.h */,
-				F58388091870C82800EF72DA /* DNSSwipeableCell.m */,
 				F5C72C1C184771F90019502F /* DetailViewController.h */,
 				F5C72C1D184771F90019502F /* DetailViewController.m */,
-				F5C72C1F184771F90019502F /* Images.xcassets */,
+				9BF394EC18C58B0600E1CB12 /* DNSExampleImageViewCell.h */,
+				9BF394ED18C58B0600E1CB12 /* DNSExampleImageViewCell.m */,
+				F58388081870C82800EF72DA /* DNSSwipeableCell.h */,
+				F58388091870C82800EF72DA /* DNSSwipeableCell.m */,
+				9BF394EF18C58D6300E1CB12 /* instagrams */,
+				9BF394FC18C5A0DD00E1CB12 /* Assets.xcassets */,
 				F5C72C0B184771F90019502F /* Supporting Files */,
 			);
 			path = DNSSwipeableCell;
@@ -241,10 +272,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F5C72C20184771F90019502F /* Images.xcassets in Resources */,
+				9BF394F718C58D6300E1CB12 /* dancer.jpg in Resources */,
+				9BF394FB18C58D6300E1CB12 /* super.jpg in Resources */,
+				9BF394F918C58D6300E1CB12 /* red.jpg in Resources */,
+				9BF394F818C58D6300E1CB12 /* ontivo.jpg in Resources */,
+				9BF394FD18C5A0DD00E1CB12 /* Assets.xcassets in Resources */,
 				F5C72C0F184771F90019502F /* InfoPlist.strings in Resources */,
 				9BF394EB18C433CD00E1CB12 /* README.md in Resources */,
+				9BF394FA18C58D6300E1CB12 /* sandwichthief.jpg in Resources */,
 				F5C72C18184771F90019502F /* Main.storyboard in Resources */,
+				9BF394F618C58D6300E1CB12 /* annoyed.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,6 +303,7 @@
 				F5C72C15184771F90019502F /* AppDelegate.m in Sources */,
 				F5C72C1B184771F90019502F /* MasterViewController.m in Sources */,
 				F583880A1870C82800EF72DA /* DNSSwipeableCell.m in Sources */,
+				9BF394EE18C58B0600E1CB12 /* DNSExampleImageViewCell.m in Sources */,
 				F5C72C11184771F90019502F /* main.m in Sources */,
 				F5C72C1E184771F90019502F /* DetailViewController.m in Sources */,
 			);

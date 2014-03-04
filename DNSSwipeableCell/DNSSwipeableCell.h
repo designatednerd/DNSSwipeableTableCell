@@ -122,8 +122,8 @@
  */
 @interface DNSSwipeableCell : UITableViewCell
 
-//The item text to display
-@property (nonatomic, strong) NSString *itemText;
+//The content view to which all content should be added
+@property (nonatomic, strong) UIView *myContentView;
 
 //Always remember to reset the index path when the cell gets recycled, or the
 //configuration won't work.
@@ -145,10 +145,14 @@
  */
 - (void)closeCell:(BOOL)animated;
 
-
 /**
  * Actually configures the buttons for each cell. Call this method when you're recycling cells.
  */
 - (void)configureButtons;
+
+/**
+ * Initialization methods which are called no matter which initializer is called.
+ */
+- (void)commonInit;
 
 @end
