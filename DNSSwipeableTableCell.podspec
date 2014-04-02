@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/designatednerd/DNSSwipeableTableCell"
   s.screenshots  = "https://raw.githubusercontent.com/designatednerd/DNSSwipeableTableCell/master/swipeable.gif"
   s.license      = { :type => 'MIT', :file => 'LICENSE.md' }
-  s.author       = "designatednerd"
+  s.author       = "Ellen Shapiro"
   s.platform     = :ios, '7.0'
   s.source       = { :git => "https://github.com/designatednerd/DNSSwipeableTableCell.git", :tag => "v#{s.version}" }
   s.source_files = 'Library'
