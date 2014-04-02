@@ -22,8 +22,8 @@ I've refactored the code that was included in the tutorial, which is is more mea
 * Added a bunch of photos of my cat, because the internet loves cats. 
 
 ##//TODOs
-* Add CocoaPods support
 * Figure out a way to not have to store the index path on the cell itself. It's way easier, but it feels dirty. ([I know, I know](http://shirt.woot.com/offers/she-is-reported-to-have-said-that-before))
+* Add support for buttons with images instead of text
 * ??? - File an issue!
 
 
