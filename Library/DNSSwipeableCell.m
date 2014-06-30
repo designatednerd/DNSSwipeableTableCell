@@ -331,40 +331,26 @@
 
 - (void)panThisCell:(UIPanGestureRecognizer *)recognizer
 {
+    if(recognizer.state == UIGestureRecognizerStateBegan) {
+        [self configureButtonsIfNeeded];
+        self.panStartPoint = [recognizer translationInView:self.myContentView];
+        self.startingRightLayoutConstraintConstant = self.contentViewRightConstraint.constant;
+        return;
+    }
+    
+    BOOL movingHorizontally = fabsf(self.panStartPoint.y) < fabsf(self.panStartPoint.x);
+    
     switch (recognizer.state) {
-        case UIGestureRecognizerStateBegan:
-            [self configureButtonsIfNeeded];
-            self.panStartPoint = [recognizer translationInView:self.myContentView];
-            self.startingRightLayoutConstraintConstant = self.contentViewRightConstraint.constant;
-            break;
         case UIGestureRecognizerStateChanged: {
-            CGPoint currentPoint = [recognizer translationInView:self.myContentView];
-            CGFloat deltaX = currentPoint.x - self.panStartPoint.x;
-            BOOL panningLeft = NO;
-            if (currentPoint.x < self.panStartPoint.x) {
-                panningLeft = YES;
-            }
-            
-            if (self.startingRightLayoutConstraintConstant == 0) {
-                //The cell was closed and is now opening
-                if (!panningLeft) {
-                    CGFloat constant = MAX(-deltaX, 0);
-                    if (constant == 0) {
-                        [self resetConstraintContstantsToZero:YES notifyDelegateDidClose:NO];
-                    } else {
-                        NSLog(@"Setting constant to %f", constant);
-                        self.contentViewRightConstraint.constant = constant;
-                    }
-                } else {
-                    CGFloat constant = MIN(-deltaX, [self buttonTotalWidth]);
-                    if (constant == [self buttonTotalWidth]) {
-                        [self setConstraintsToShowAllButtons:YES notifyDelegateDidOpen:NO];
-                    } else {
-                        self.contentViewRightConstraint.constant = constant;
-                    }
+            if(movingHorizontally) {
+                // Started by moving horizontally
+                CGPoint currentPoint = [recognizer translationInView:self.myContentView];
+                CGFloat deltaX = currentPoint.x - self.panStartPoint.x;
+                BOOL panningLeft = NO;
+                if (currentPoint.x < self.panStartPoint.x) {
+                    panningLeft = YES;
                 }
-            } else {
-                //The cell was at least partially open.
+                
                 CGFloat adjustment = self.startingRightLayoutConstraintConstant - deltaX;
                 if (!panningLeft) {
                     CGFloat constant = MAX(adjustment, 0);
@@ -381,40 +367,34 @@
                         self.contentViewRightConstraint.constant = constant;
                     }
                 }
+                
+                self.contentViewLeftConstraint.constant = -self.contentViewRightConstraint.constant;
             }
-            
-            self.contentViewLeftConstraint.constant = -self.contentViewRightConstraint.constant;
         }
             break;
         case UIGestureRecognizerStateEnded:
-            if (self.startingRightLayoutConstraintConstant == 0) {
-                //We were opening
-                if (self.contentViewRightConstraint.constant >= [self halfOfFirstButtonWidth]) {
+            if(movingHorizontally) {
+                if (self.contentViewRightConstraint.constant >= [self halfOfFirstButtonWidth] && [recognizer velocityInView:self.myContentView].x < 200.0f
+                    ) {
                     //Open all the way
                     [self setConstraintsToShowAllButtons:YES notifyDelegateDidOpen:YES];
                 } else {
                     //Re-close
                     [self resetConstraintContstantsToZero:YES notifyDelegateDidClose:YES];
                 }
-                
-            } else {
-                //We were closing
-                if (self.contentViewRightConstraint.constant >= [self halfOfLastButtonXPosition]) {
-                    //Re-open all the way
-                    [self setConstraintsToShowAllButtons:YES notifyDelegateDidOpen:YES];
-                } else {
-                    //Close
-                    [self resetConstraintContstantsToZero:YES notifyDelegateDidClose:YES];
-                }
+
             }
             break;
         case UIGestureRecognizerStateCancelled:
-            if (self.startingRightLayoutConstraintConstant == 0) {
-                //We were closed - reset everything to 0
-                [self resetConstraintContstantsToZero:YES notifyDelegateDidClose:YES];
-            } else {
-                //We were open - reset to the open state
-                [self setConstraintsToShowAllButtons:YES notifyDelegateDidOpen:YES];
+            if(movingHorizontally) {
+                // Started by moving horizontally
+                if (self.startingRightLayoutConstraintConstant == 0) {
+                    //We were closed - reset everything to 0
+                    [self resetConstraintContstantsToZero:YES notifyDelegateDidClose:YES];
+                } else {
+                    //We were open - reset to the open state
+                    [self setConstraintsToShowAllButtons:YES notifyDelegateDidOpen:YES];
+                }
             }
             break;
             
