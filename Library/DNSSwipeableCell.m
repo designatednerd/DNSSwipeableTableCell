@@ -178,7 +178,7 @@
     [button addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     if (xOrigin < 40) {
-        NSLog(@"***ATTENTION!*** Button at index %d at index path %@ is going to leave less than 40 points of space! That's going to be hard to close.", index, indexPath);
+        NSLog(@"***ATTENTION!*** Button at index %@ at index path %@ is going to leave less than 40 points of space! That's going to be hard to close.", @(index), indexPath);
     }
     
     return button;
@@ -189,7 +189,7 @@
     if ([sender isKindOfClass:[UIButton class] ]) {
         NSInteger index = [self.buttons indexOfObject:sender];
         if (index != NSNotFound) {
-            NSLog(@"Clicked button at index %d", index);
+            NSLog(@"Clicked button at index %@", @(index));
             [self.delegate swipeableCell:self didSelectButtonAtIndex:index];
         } else {
             NSAssert(NO, @"Index not in the list of buttons!");

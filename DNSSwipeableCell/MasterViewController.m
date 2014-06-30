@@ -41,7 +41,7 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
     //Create a whole bunch of string objects, and add them to the array.
     NSInteger numberOfItems = 30;
     for (NSInteger i = 1; i <= numberOfItems; i++) {
-        NSString *item = [NSString stringWithFormat:@"Longer Title Item #%d", i];
+        NSString *item = [NSString stringWithFormat:@"Longer Title Item #%@", @(i)];
         [_itemTitles addObject:item];
     }
     
@@ -129,7 +129,7 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
     } else {
         //This is something that hasn't been set up yet - add a log to determine
         //what sort of editing style you also need to handle.
-        NSLog(@"Unhandled editing style! %d", editingStyle);
+        NSLog(@"Unhandled editing style! %@", @(editingStyle));
     }
     
     [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.5];
