@@ -178,6 +178,12 @@
     //Size it to fit the contents
     [button sizeToFit];
     
+    if (button.frame.size.width < 44.0f) {
+        CGRect frame = button.frame;
+        frame.size.width = 44.0f;
+        button.frame = frame;
+    }
+    
     //Update the origin and size to make sure that everything is the size it needs to be
     CGFloat xOrigin = previousMinX - CGRectGetWidth(button.frame);
     button.frame = CGRectMake(xOrigin, 0, CGRectGetWidth(button.frame), CGRectGetHeight(self.frame));
@@ -186,7 +192,7 @@
     [button addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     if (xOrigin < 40) {
-        NSLog(@"***ATTENTION!*** Button at index %ld is going to leave less than 40 points of space! That's going to be hard to close.", index);
+        NSLog(@"***ATTENTION!*** Button at index %d is going to leave less than 40 points of space! That's going to be hard to close.", index);
     }
     
     return button;
