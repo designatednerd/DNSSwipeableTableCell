@@ -159,12 +159,14 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
 
 - (NSString *)swipeableCell:(DNSSwipeableCell *)cell titleForButtonAtIndex:(NSInteger)index
 {
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    
     switch (index) {
         case 0:
             return NSLocalizedString(@"Delete", @"Delete");
             break;
         case 1:
-            return NSLocalizedString(@"Option 1", @"Option 1");
+            return (indexPath.row == 0) ? @"" : NSLocalizedString(@"Option 1", @"Option 1");
             break;
         case 2:
             return NSLocalizedString(@"Option 2", @"Option 2");
@@ -174,6 +176,16 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
     }
     
     return nil;
+}
+
+- (UIImage*)swipeableCell:(DNSSwipeableCell *)cell imageForButtonAtIndex:(NSInteger)index
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    if (indexPath.row == 0 && index == 1) {
+        return [UIImage imageNamed:@"user"];
+    } else {
+        return nil;
+    }
 }
 
 - (UIColor *)swipeableCell:(DNSSwipeableCell *)cell backgroundColorForButtonAtIndex:(NSInteger)index

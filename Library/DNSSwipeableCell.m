@@ -150,16 +150,23 @@
         }
     }
     
-    if ([self.dataSource respondsToSelector:@selector(swipeableCell:tintColorForButtonAtIndex:)]) {
-        button.tintColor = [self.dataSource swipeableCell:self tintColorForButtonAtIndex:index];
-    } else {
-        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    }
-    
     if ([self.dataSource respondsToSelector:@selector(swipeableCell:titleForButtonAtIndex:)]) {
         [button setTitle:[self.dataSource swipeableCell:self titleForButtonAtIndex:index] forState:UIControlStateNormal];
     } else {
         [button setTitle:@"" forState:UIControlStateNormal];
+    }
+    
+    if ([self.dataSource respondsToSelector:@selector(swipeableCell:imageForButtonAtIndex:)]) {
+        UIImage *iconImage = [self.dataSource swipeableCell:self imageForButtonAtIndex:index];
+        if (iconImage) {
+            [button setImage:[iconImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        }
+    }
+    
+    if ([self.dataSource respondsToSelector:@selector(swipeableCell:tintColorForButtonAtIndex:)]) {
+        button.tintColor = [self.dataSource swipeableCell:self tintColorForButtonAtIndex:index];
+    } else {
+        button.tintColor = [UIColor whiteColor];
     }
     
     [button setContentEdgeInsets:UIEdgeInsetsMake(0, 8, 0, 8)];

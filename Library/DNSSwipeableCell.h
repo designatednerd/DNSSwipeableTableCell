@@ -60,6 +60,17 @@
 - (UIColor *)swipeableCell:(DNSSwipeableCell *)cell tintColorForButtonAtIndex:(NSInteger)index;
 
 /**
+ * Configures the image for a button at a given index.
+ *
+ * REMEMBER: Button indexes will be right to left since that's the way the cell
+ * slides open - for example | index 2  index 1  index 0 |.
+ *
+ * @param index - The index of the button for which this should be the font size, in points.
+ * @return The font point size you wish to display.
+ */
+- (UIImage*)swipeableCell:(DNSSwipeableCell *)cell imageForButtonAtIndex:(NSInteger)index;
+
+/**
  * Configures the font for a button at a given index.
  *
  * REMEMBER: Button indexes will be right to left since that's the way the cell
