@@ -41,7 +41,7 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
     //Create a whole bunch of string objects, and add them to the array.
     NSInteger numberOfItems = 30;
     for (NSInteger i = 1; i <= numberOfItems; i++) {
-        NSString *item = [NSString stringWithFormat:@"Longer Title Item #%d", i];
+        NSString *item = [NSString stringWithFormat:@"Longer Title Item #%ld", (long)i];
         [_itemTitles addObject:item];
     }
     
@@ -98,7 +98,6 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
     cell.exampleImageView.image = image;
     
     //Set up the buttons
-    cell.indexPath = indexPath;
     cell.dataSource = self;
     cell.delegate = self;
     
@@ -129,7 +128,7 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
     } else {
         //This is something that hasn't been set up yet - add a log to determine
         //what sort of editing style you also need to handle.
-        NSLog(@"Unhandled editing style! %d", editingStyle);
+        NSLog(@"Unhandled editing style! %ld", editingStyle);
     }
     
     [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.5];
@@ -138,8 +137,10 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
 #pragma mark - DNSSwipeableCellDataSource
 
 #pragma mark Required Methods
-- (NSInteger)numberOfButtonsInSwipeableCellAtIndexPath:(NSIndexPath *)indexPath
+- (NSInteger)numberOfButtonsInSwipeableCell:(DNSSwipeableCell *)cell
 {
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    
     if (indexPath.row % 2 == 0) {
         //Even rows have 2 options
         return 2;
@@ -149,7 +150,14 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
     }
 }
 
-- (NSString *)titleForButtonAtIndex:(NSInteger)index inCellAtIndexPath:(NSIndexPath *)indexPath
+#pragma mark Optional Methods
+
+- (UIFont*)fontForButtonAtIndex:(NSInteger)index inCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [UIFont systemFontOfSize:14.0f];
+}
+
+- (NSString *)swipeableCell:(DNSSwipeableCell *)cell titleForButtonAtIndex:(NSInteger)index
 {
     switch (index) {
         case 0:
@@ -168,7 +176,7 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
     return nil;
 }
 
-- (UIColor *)backgroundColorForButtonAtIndex:(NSInteger)index inCellAtIndexPath:(NSIndexPath *)indexPath
+- (UIColor *)swipeableCell:(DNSSwipeableCell *)cell backgroundColorForButtonAtIndex:(NSInteger)index
 {
     switch (index) {
         case 0:
@@ -183,7 +191,7 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
     }
 }
 
-- (UIColor *)textColorForButtonAtIndex:(NSInteger)index inCellAtIndexPath:(NSIndexPath *)indexPath
+- (UIColor *)swipeableCell:(DNSSwipeableCell *)cell tintColorForButtonAtIndex:(NSInteger)index
 {
     switch (index) {
         case 0:
@@ -205,51 +213,44 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
     [self showDetailForIndexPath:indexPath fromDelegateButtonAtIndex:-1];
 }
 
-#pragma mark Optional Methods
-//Uncomment the optional methods to muck around with them. 
-//- (CGFloat)fontSizeForButtonAtIndex:(NSInteger)index inCellAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return 12.0f;
-//}
-//
-//- (NSString *)fontNameForButtonAtIndex:(NSInteger)index inCellAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    //List of fonts available on iOS 7: http://support.apple.com/kb/HT5878
-//    return @"AmericanTypewriter";
-//}
-
 #pragma mark - DNSSwipeableCellDelegate
 
 - (void)swipeableCell:(DNSSwipeableCell *)cell didSelectButtonAtIndex:(NSInteger)index
 {
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    
     if (index == 0) {
-        [self.cellsCurrentlyEditing removeObject:cell.indexPath];
-        [self tableView:self.tableView commitEditingStyle:UITableViewCellEditingStyleDelete forRowAtIndexPath:cell.indexPath];
+        [self.cellsCurrentlyEditing removeObject:indexPath];
+        [self tableView:self.tableView commitEditingStyle:UITableViewCellEditingStyleDelete forRowAtIndexPath:indexPath];
     } else {
-        [self showDetailForIndexPath:cell.indexPath fromDelegateButtonAtIndex:index];
+        [self showDetailForIndexPath:indexPath fromDelegateButtonAtIndex:index];
     }
 }
 
 - (void)swipeableCellDidOpen:(DNSSwipeableCell *)cell
 {
-    [self.cellsCurrentlyEditing addObject:cell.indexPath];
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    [self.cellsCurrentlyEditing addObject:indexPath];
 }
 
 - (void)swipeableCellDidClose:(DNSSwipeableCell *)cell
 {
-    [self.cellsCurrentlyEditing removeObject:cell.indexPath];
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    [self.cellsCurrentlyEditing removeObject:indexPath];
 }
 
 #pragma mark - Detail view
 
 - (void)showDetailForIndexPath:(NSIndexPath *)indexPath fromDelegateButtonAtIndex:(NSInteger)buttonIndex
 {
+    DNSSwipeableCell *cell = (DNSSwipeableCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+    
     //Instantiate the DetailVC out of the storyboard.
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     DetailViewController *detail = [storyboard instantiateViewControllerWithIdentifier:@"DetailViewController"];
     NSString *title = self.itemTitles[indexPath.row];
     if (buttonIndex != -1) {
-        NSString *textForCellButton = [self titleForButtonAtIndex:buttonIndex inCellAtIndexPath:indexPath];
+        NSString *textForCellButton = [self swipeableCell:cell titleForButtonAtIndex:buttonIndex];
         title = [NSString stringWithFormat:@"%@: %@", title, textForCellButton];
     } else {
         title = self.itemTitles[indexPath.row];
