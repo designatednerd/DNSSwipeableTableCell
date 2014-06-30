@@ -310,7 +310,14 @@
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
-    //Allows scrolling to work.
+    if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+        UIPanGestureRecognizer *panGesture = (UIPanGestureRecognizer*)gestureRecognizer;
+        CGPoint velocity = [panGesture velocityInView:self.myContentView];
+        if (fabsf(velocity.x) > fabsf(velocity.y)) {
+            return NO;
+        }
+    }
+    
     return YES;
 }
 
@@ -321,11 +328,11 @@
     switch (recognizer.state) {
         case UIGestureRecognizerStateBegan:
             [self configureButtonsIfNeeded];
-            self.panStartPoint = [recognizer translationInView:self.contentView];
+            self.panStartPoint = [recognizer translationInView:self.myContentView];
             self.startingRightLayoutConstraintConstant = self.contentViewRightConstraint.constant;
             break;
         case UIGestureRecognizerStateChanged: {
-            CGPoint currentPoint = [recognizer translationInView:self.contentView];
+            CGPoint currentPoint = [recognizer translationInView:self.myContentView];
             CGFloat deltaX = currentPoint.x - self.panStartPoint.x;
             BOOL panningLeft = NO;
             if (currentPoint.x < self.panStartPoint.x) {
