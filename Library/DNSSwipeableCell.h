@@ -83,6 +83,15 @@
  */
 - (NSString *)fontNameForButtonAtIndex:(NSInteger)index inCellAtIndexPath:(NSIndexPath *)indexPath;
 
+/**
+ * Allows the user to configure when a cell should be allowed to open - this is helpful
+ * for cases like wanting to prevent cells from opening when the parent table view is
+ * scrolling. 
+ *
+ * @return YES if the tableview should prevent opening, NO if not. 
+ */
+- (BOOL)shouldPreventOpening;
+
 @end
 
 #pragma mark - Delegate

@@ -310,20 +310,33 @@
 
 - (void)panThisCell:(UIPanGestureRecognizer *)recognizer
 {
-    switch (recognizer.state) {
+    UIGestureRecognizerState currentState = recognizer.state;
+    CGPoint currentPoint = [recognizer translationInView:self.myContentView];
+
+    if ([self.dataSource respondsToSelector:@selector(shouldPreventOpening)]) {
+        if ([self.dataSource shouldPreventOpening]) {
+            //Force pan to end.
+            NSLog(@"Force pan to end");
+            currentState = UIGestureRecognizerStateEnded;
+            if (self.panStartPoint.x == 0) {
+                
+            }
+        }
+    }
+    
+    switch (currentState) {
         case UIGestureRecognizerStateBegan:
             [self configureButtonsIfNeeded];
-            self.panStartPoint = [recognizer translationInView:self.myContentView];
+            self.panStartPoint = currentPoint;
             self.startingRightLayoutConstraintConstant = self.contentViewRightConstraint.constant;
             break;
         case UIGestureRecognizerStateChanged: {
-            CGPoint currentPoint = [recognizer translationInView:self.myContentView];
             CGFloat deltaX = currentPoint.x - self.panStartPoint.x;
             BOOL panningLeft = NO;
             if (currentPoint.x < self.panStartPoint.x) {
                 panningLeft = YES;
             }
-            
+    
             if (self.startingRightLayoutConstraintConstant == 0) {
                 //The cell was closed and is now opening
                 if (!panningLeft) {
@@ -368,14 +381,15 @@
         case UIGestureRecognizerStateEnded:
             if (self.startingRightLayoutConstraintConstant == 0) {
                 //We were opening
-                if (self.contentViewRightConstraint.constant >= [self halfOfFirstButtonWidth]) {
+                CGFloat halfWidth = [self halfOfFirstButtonWidth];
+                if (halfWidth != 0 && //Handle case where cell is already offscreen.
+                    self.contentViewRightConstraint.constant >= halfWidth) {
                     //Open all the way
                     [self setConstraintsToShowAllButtons:YES notifyDelegateDidOpen:YES];
                 } else {
                     //Re-close
                     [self resetConstraintContstantsToZero:YES notifyDelegateDidClose:YES];
                 }
-                
             } else {
                 //We were closing
                 if (self.contentViewRightConstraint.constant >= [self halfOfLastButtonXPosition]) {

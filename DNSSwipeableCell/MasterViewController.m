@@ -18,6 +18,7 @@
 @property (nonatomic, strong) NSArray *backgroundColors;
 @property (nonatomic, strong) NSArray *textColors;
 @property (nonatomic, strong) NSArray *imageNames;
+@property (nonatomic, assign) BOOL isCurrentlyScrolling;
 
 @end
 
@@ -64,10 +65,18 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
     
     self.textColors = @[[UIColor whiteColor],
                         [UIColor blackColor]];
-    
 }
 
-#pragma mark - Table View
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    //Workaround for UIScrollViewDelegate firing scrollViewDidScroll: a couple times
+    //during the loading process.
+    self.isCurrentlyScrolling = NO;
+}
+
+#pragma mark - Table View Data Source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -88,7 +97,6 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
 {
     //Recycle!
     DNSExampleImageViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDNSExampleImageCellIdentifier forIndexPath:indexPath];
-
 
     //Setup the label and image
     NSString *textItem = self.itemTitles[indexPath.row];
@@ -133,6 +141,37 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
     }
     
     [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.5];
+}
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self showDetailForIndexPath:indexPath fromDelegateButtonAtIndex:-1];
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    self.isCurrentlyScrolling = NO;
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if (!decelerate) {
+        self.isCurrentlyScrolling = NO;
+    }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    self.isCurrentlyScrolling = YES;
+}
+
+- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView
+{
+    self.isCurrentlyScrolling = NO;
 }
 
 #pragma mark - DNSSwipeableCellDataSource
@@ -198,15 +237,14 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
     }
 }
 
-#pragma mark - UITableViewDelegate 
+#pragma mark Optional Methods
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (BOOL)shouldPreventOpening
 {
-    [self showDetailForIndexPath:indexPath fromDelegateButtonAtIndex:-1];
+    return self.isCurrentlyScrolling;
 }
 
-#pragma mark Optional Methods
-//Uncomment the optional methods to muck around with them. 
+//Uncomment the optional styling methods to muck around with them.
 //- (CGFloat)fontSizeForButtonAtIndex:(NSInteger)index inCellAtIndexPath:(NSIndexPath *)indexPath
 //{
 //    return 12.0f;
