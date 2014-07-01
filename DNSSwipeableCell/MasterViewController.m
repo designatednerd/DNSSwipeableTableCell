@@ -145,7 +145,7 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
 
 - (NSInteger)numberOfButtonsInSwipeableCell:(DNSSwipeableCell *)cell
 {
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:cell.center];
     
     if (indexPath.row % 2 == 0) {
         //Even rows have 2 options
@@ -167,7 +167,7 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
 
 - (NSString *)swipeableCell:(DNSSwipeableCell *)cell titleForButtonAtIndex:(NSInteger)index
 {
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:cell.center];
     
     switch (index) {
         case 0:
@@ -188,7 +188,7 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
 
 - (UIImage *)swipeableCell:(DNSSwipeableCell *)cell imageForButtonAtIndex:(NSInteger)index
 {
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:cell.center];
     if (indexPath.row == 0 && index == 1) {
         return [UIImage imageNamed:@"user"];
     } else {
@@ -232,7 +232,7 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
 
 - (void)swipeableCell:(DNSSwipeableCell *)cell didSelectButtonAtIndex:(NSInteger)index
 {
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:cell.center];
     
     if (index == 0) {
         [self.cellsCurrentlyEditing removeObject:indexPath];
@@ -244,13 +244,13 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
 
 - (void)swipeableCellDidOpen:(DNSSwipeableCell *)cell
 {
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:cell.center];
     [self.cellsCurrentlyEditing addObject:indexPath];
 }
 
 - (void)swipeableCellDidClose:(DNSSwipeableCell *)cell
 {
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:cell.center];
     [self.cellsCurrentlyEditing removeObject:indexPath];
 }
 
