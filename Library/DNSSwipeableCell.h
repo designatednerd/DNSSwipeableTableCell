@@ -26,7 +26,8 @@
 @optional
 
 /**
- * The title for the button at a given index in a particular swipeable cell.
+ * The title for the button at a given index in a particular swipeable cell. Defaults to
+ * an empty string.
  *
  * REMEMBER: Button indexes will be right to left since that's the way the cell
  * slides open - for example | index 2  index 1  index 0 |.
@@ -39,7 +40,8 @@
 
 /**
  * The color for the background of a button at the given index in a swipeable cell at
- * the given index path.
+ * the given index path. Defaults to [UIColor redColor] for index 0 and [UIColor 
+ * lightGrayColor] for all other indexes
  *
  * REMEMBER: Button indexes will be right to left since that's the way the cell
  * slides open - for example | index 2  index 1  index 0 |.
@@ -52,7 +54,7 @@
 
 /**
  * The color for the text of a button at the given index in a swipeable cell at
- * the given index path.
+ * the given index path. Defaults to [UIColor whiteColor]
  *
  * REMEMBER: Button indexes will be right to left since that's the way the cell
  * slides open - for example | index 2  index 1  index 0 |.
@@ -65,7 +67,7 @@
 
 /**
  * Configures the image for a button at a given index. Note that you should not set both
- * an image and a title for the same cell.
+ * an image and a title for the same cell. Defaults to null.
  *
  * REMEMBER: Button indexes will be right to left since that's the way the cell
  * slides open - for example | index 2  index 1  index 0 |.
@@ -77,7 +79,8 @@
 - (UIImage *)swipeableCell:(DNSSwipeableCell *)cell imageForButtonAtIndex:(NSInteger)index;
 
 /**
- * Configures the font for a button at a given index.
+ * Configures the font for a button at a given index. Defaults to the UIButton font 
+ * provided by the system.
  *
  * REMEMBER: Button indexes will be right to left since that's the way the cell
  * slides open - for example | index 2  index 1  index 0 |.

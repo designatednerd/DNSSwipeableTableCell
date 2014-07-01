@@ -137,12 +137,13 @@
 
 - (UIButton *)buttonForIndex:(NSInteger)index previousButtonMinX:(CGFloat)previousMinX
 {
-    //Create button with mandatory aspects
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     
     if ([self.dataSource respondsToSelector:@selector(swipeableCell:backgroundColorForButtonAtIndex:)]) {
+        //Set background color from data source
         button.backgroundColor = [self.dataSource swipeableCell:self  backgroundColorForButtonAtIndex:index];
     } else {
+        //Use default colors
         if (index == 0) {
             button.backgroundColor = [UIColor redColor];
         } else {
@@ -151,12 +152,15 @@
     }
     
     if ([self.dataSource respondsToSelector:@selector(swipeableCell:titleForButtonAtIndex:)]) {
+        //use given title
         [button setTitle:[self.dataSource swipeableCell:self titleForButtonAtIndex:index] forState:UIControlStateNormal];
     } else {
+        //Default to empty title
         [button setTitle:@"" forState:UIControlStateNormal];
     }
     
     if ([self.dataSource respondsToSelector:@selector(swipeableCell:imageForButtonAtIndex:)]) {
+        //Use the image, if it exists
         UIImage *iconImage = [self.dataSource swipeableCell:self imageForButtonAtIndex:index];
         if (iconImage) {
             [button setImage:[iconImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
@@ -164,8 +168,10 @@
     }
     
     if ([self.dataSource respondsToSelector:@selector(swipeableCell:tintColorForButtonAtIndex:)]) {
+        //Use the given tint color. 
         button.tintColor = [self.dataSource swipeableCell:self tintColorForButtonAtIndex:index];
     } else {
+        //Default to white
         button.tintColor = [UIColor whiteColor];
     }
     
@@ -331,9 +337,9 @@
 
 - (void)panThisCell:(UIPanGestureRecognizer *)recognizer
 {
-#warning fix to location in view
     CGPoint currentPoint = [recognizer translationInView:self.myContentView];
-    
+
+    //Check what direction the swipe is moving by checking the translation
     BOOL movingHorizontally = fabsf(self.panStartPoint.y) < fabsf(self.panStartPoint.x);
     
     switch (recognizer.state) {
@@ -342,32 +348,6 @@
             self.panStartPoint = currentPoint;
             self.startingRightLayoutConstraintConstant = self.contentViewRightConstraint.constant;
             break;
-//        case UIGestureRecognizerStateChanged: {
-//            CGFloat deltaX = currentPoint.x - self.panStartPoint.x;
-//            BOOL panningLeft = NO;
-//            if (currentPoint.x < self.panStartPoint.x) {
-//                panningLeft = YES;
-//            }
-//    
-//            if (self.startingRightLayoutConstraintConstant == 0) {
-//                //The cell was closed and is now opening
-//                if (!panningLeft) {
-//                    CGFloat constant = MAX(-deltaX, 0);
-//                    if (constant == 0) {
-//                        [self resetConstraintContstantsToZero:YES notifyDelegateDidClose:NO];
-//                    } else {
-//                        NSLog(@"Setting constant to %f", constant);
-//                        self.contentViewRightConstraint.constant = constant;
-//                    }
-//                } else {
-//                    CGFloat constant = MIN(-deltaX, [self buttonTotalWidth]);
-//                    if (constant == [self buttonTotalWidth]) {
-//                        [self setConstraintsToShowAllButtons:YES notifyDelegateDidOpen:NO];
-//                    } else {
-//                        self.contentViewRightConstraint.constant = constant;
-//                    }
-
-    
         case UIGestureRecognizerStateChanged: {
             if(movingHorizontally) {
                 // Started by moving horizontally
@@ -400,24 +380,26 @@
             break;
         case UIGestureRecognizerStateEnded:
             if(movingHorizontally) {
-                //We were opening
-                CGFloat halfWidth = [self halfOfFirstButtonWidth];
-                if (halfWidth != 0 && //Handle case where cell is already offscreen.
-                    self.contentViewRightConstraint.constant >= halfWidth) {
-                    //Open all the way
-                    [self setConstraintsToShowAllButtons:YES notifyDelegateDidOpen:YES];
+                if (self.startingRightLayoutConstraintConstant == 0) {
+                    //We were opening
+                    CGFloat halfWidth = [self halfOfFirstButtonWidth];
+                    if (halfWidth != 0 && //Handle case where cell is already offscreen.
+                        self.contentViewRightConstraint.constant >= halfWidth) {
+                        //Open all the way
+                        [self setConstraintsToShowAllButtons:YES notifyDelegateDidOpen:YES];
+                    } else {
+                        //Re-close
+                        [self resetConstraintContstantsToZero:YES notifyDelegateDidClose:YES];
+                    }
                 } else {
-                    //Re-close
-                    [self resetConstraintContstantsToZero:YES notifyDelegateDidClose:YES];
-                }
-            } else {
                 //We were closing
-                if (self.contentViewRightConstraint.constant >= [self halfOfLastButtonXPosition]) {
-                    //Re-open all the way
-                    [self setConstraintsToShowAllButtons:YES notifyDelegateDidOpen:YES];
-                } else {
-                    //Close
-                    [self resetConstraintContstantsToZero:YES notifyDelegateDidClose:YES];
+                    if (self.contentViewRightConstraint.constant >= [self halfOfLastButtonXPosition]) {
+                        //Re-open all the way
+                        [self setConstraintsToShowAllButtons:YES notifyDelegateDidOpen:YES];
+                    } else {
+                        //Close
+                        [self resetConstraintContstantsToZero:YES notifyDelegateDidClose:YES];
+                    }
                 }
             }
             break;
