@@ -106,7 +106,6 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
     cell.exampleImageView.image = image;
     
     //Set up the buttons
-    cell.indexPath = indexPath;
     cell.dataSource = self;
     cell.delegate = self;
     
@@ -177,8 +176,10 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
 #pragma mark - DNSSwipeableCellDataSource
 
 #pragma mark Required Methods
-- (NSInteger)numberOfButtonsInSwipeableCellAtIndexPath:(NSIndexPath *)indexPath
+- (NSInteger)numberOfButtonsInSwipeableCell:(DNSSwipeableCell *)cell
 {
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    
     if (indexPath.row % 2 == 0) {
         //Even rows have 2 options
         return 2;
@@ -188,14 +189,23 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
     }
 }
 
-- (NSString *)titleForButtonAtIndex:(NSInteger)index inCellAtIndexPath:(NSIndexPath *)indexPath
+#pragma mark Optional Methods
+
+- (UIFont*)fontForButtonAtIndex:(NSInteger)index inCellAtIndexPath:(NSIndexPath *)indexPath
 {
+    return [UIFont systemFontOfSize:14.0f];
+}
+
+- (NSString *)swipeableCell:(DNSSwipeableCell *)cell titleForButtonAtIndex:(NSInteger)index
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    
     switch (index) {
         case 0:
             return NSLocalizedString(@"Delete", @"Delete");
             break;
         case 1:
-            return NSLocalizedString(@"Option 1", @"Option 1");
+            return (indexPath.row == 0) ? @"" : NSLocalizedString(@"Option 1", @"Option 1");
             break;
         case 2:
             return NSLocalizedString(@"Option 2", @"Option 2");
@@ -207,7 +217,17 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
     return nil;
 }
 
-- (UIColor *)backgroundColorForButtonAtIndex:(NSInteger)index inCellAtIndexPath:(NSIndexPath *)indexPath
+- (UIImage*)swipeableCell:(DNSSwipeableCell *)cell imageForButtonAtIndex:(NSInteger)index
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    if (indexPath.row == 0 && index == 1) {
+        return [UIImage imageNamed:@"user"];
+    } else {
+        return nil;
+    }
+}
+
+- (UIColor *)swipeableCell:(DNSSwipeableCell *)cell backgroundColorForButtonAtIndex:(NSInteger)index
 {
     switch (index) {
         case 0:
@@ -222,7 +242,7 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
     }
 }
 
-- (UIColor *)textColorForButtonAtIndex:(NSInteger)index inCellAtIndexPath:(NSIndexPath *)indexPath
+- (UIColor *)swipeableCell:(DNSSwipeableCell *)cell tintColorForButtonAtIndex:(NSInteger)index
 {
     switch (index) {
         case 0:
@@ -256,38 +276,45 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
 //    return @"AmericanTypewriter";
 //}
 
+
 #pragma mark - DNSSwipeableCellDelegate
 
 - (void)swipeableCell:(DNSSwipeableCell *)cell didSelectButtonAtIndex:(NSInteger)index
 {
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    
     if (index == 0) {
-        [self.cellsCurrentlyEditing removeObject:cell.indexPath];
-        [self tableView:self.tableView commitEditingStyle:UITableViewCellEditingStyleDelete forRowAtIndexPath:cell.indexPath];
+        [self.cellsCurrentlyEditing removeObject:indexPath];
+        [self tableView:self.tableView commitEditingStyle:UITableViewCellEditingStyleDelete forRowAtIndexPath:indexPath];
     } else {
-        [self showDetailForIndexPath:cell.indexPath fromDelegateButtonAtIndex:index];
+        [self showDetailForIndexPath:indexPath fromDelegateButtonAtIndex:index];
     }
 }
 
 - (void)swipeableCellDidOpen:(DNSSwipeableCell *)cell
 {
-    [self.cellsCurrentlyEditing addObject:cell.indexPath];
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    [self.cellsCurrentlyEditing addObject:indexPath];
 }
 
 - (void)swipeableCellDidClose:(DNSSwipeableCell *)cell
 {
-    [self.cellsCurrentlyEditing removeObject:cell.indexPath];
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    [self.cellsCurrentlyEditing removeObject:indexPath];
 }
 
 #pragma mark - Detail view
 
 - (void)showDetailForIndexPath:(NSIndexPath *)indexPath fromDelegateButtonAtIndex:(NSInteger)buttonIndex
 {
+    DNSSwipeableCell *cell = (DNSSwipeableCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+    
     //Instantiate the DetailVC out of the storyboard.
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     DetailViewController *detail = [storyboard instantiateViewControllerWithIdentifier:@"DetailViewController"];
     NSString *title = self.itemTitles[indexPath.row];
     if (buttonIndex != -1) {
-        NSString *textForCellButton = [self titleForButtonAtIndex:buttonIndex inCellAtIndexPath:indexPath];
+        NSString *textForCellButton = [self swipeableCell:cell titleForButtonAtIndex:buttonIndex];
         title = [NSString stringWithFormat:@"%@: %@", title, textForCellButton];
     } else {
         title = self.itemTitles[indexPath.row];
