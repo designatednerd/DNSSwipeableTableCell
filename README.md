@@ -4,7 +4,7 @@ DNSSwipeableTableCell
 
 ![DNSSwipeableTableCell demo](swipeable.gif)
 
-This is an extension of a tutorial I've written for [RayWenderlich.com](http://www.raywenderlich.com) on how to create a swipeable UITableViewCell for iOS 7 without driving yourself completley insane with UIScrollViews. (Drive yourself insane with constraints instead!)
+This is an extension of [a tutorial I wrote](http://www.raywenderlich.com/62435/make-swipeable-table-view-cell-actions-without-going-nuts-scroll-views) for [RayWenderlich.com](http://www.raywenderlich.com) on how to create a swipeable UITableViewCell for iOS 7 without driving yourself completley insane with UIScrollViews. (Drive yourself insane with constraints instead!)
  
 The crux of the problem is that while adding a delete button is super-easy, adding a delete button AND another button is a total nightmare because of the way the cells are constructed. 
 
@@ -22,9 +22,10 @@ I've refactored the code that was included in the tutorial, which is is more mea
 * Added a bunch of photos of my cat, because the internet loves cats. 
 
 ##//TODOs
-* Figure out a way to not have to store the index path on the cell itself. It's way easier, but it feels dirty. ([I know, I know](http://shirt.woot.com/offers/she-is-reported-to-have-said-that-before))
-* Add support for buttons with images instead of text
 * ??? - File an issue!
+
+##Additional Contributors
+* [Mark Flowers](https://github.com/markflowers) - Improved fixes for tableview slop, removed index path hack, defaults for numerous previously required methods, and better delegate methods.
 
 
 ##Photos
