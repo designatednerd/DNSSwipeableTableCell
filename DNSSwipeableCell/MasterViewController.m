@@ -176,6 +176,7 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
 #pragma mark - DNSSwipeableCellDataSource
 
 #pragma mark Required Methods
+
 - (NSInteger)numberOfButtonsInSwipeableCell:(DNSSwipeableCell *)cell
 {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
@@ -191,10 +192,12 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
 
 #pragma mark Optional Methods
 
-- (UIFont*)fontForButtonAtIndex:(NSInteger)index inCellAtIndexPath:(NSIndexPath *)indexPath
-{
-    return [UIFont systemFontOfSize:14.0f];
-}
+//Uncomment this optional styling method to muck around with the font.
+//- (UIFont *)swipeableCell:(DNSSwipeableCell *)cell fontForButtonAtIndex:(NSInteger)index
+//{
+//    //List of fonts available on iOS 7: http://support.apple.com/kb/HT5878
+//    return [UIFont fontWithName:@"AmericanTypewriter" size:14.0f];
+//}
 
 - (NSString *)swipeableCell:(DNSSwipeableCell *)cell titleForButtonAtIndex:(NSInteger)index
 {
@@ -217,7 +220,7 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
     return nil;
 }
 
-- (UIImage*)swipeableCell:(DNSSwipeableCell *)cell imageForButtonAtIndex:(NSInteger)index
+- (UIImage *)swipeableCell:(DNSSwipeableCell *)cell imageForButtonAtIndex:(NSInteger)index
 {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     if (indexPath.row == 0 && index == 1) {
@@ -263,19 +266,6 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
 {
     return self.isCurrentlyScrolling;
 }
-
-//Uncomment the optional styling methods to muck around with them.
-//- (CGFloat)fontSizeForButtonAtIndex:(NSInteger)index inCellAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return 12.0f;
-//}
-//
-//- (NSString *)fontNameForButtonAtIndex:(NSInteger)index inCellAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    //List of fonts available on iOS 7: http://support.apple.com/kb/HT5878
-//    return @"AmericanTypewriter";
-//}
-
 
 #pragma mark - DNSSwipeableCellDelegate
 
