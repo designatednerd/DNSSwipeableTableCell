@@ -18,7 +18,6 @@
 @property (nonatomic, strong) NSArray *backgroundColors;
 @property (nonatomic, strong) NSArray *textColors;
 @property (nonatomic, strong) NSArray *imageNames;
-@property (nonatomic, assign) BOOL isCurrentlyScrolling;
 
 @end
 
@@ -65,15 +64,6 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
     
     self.textColors = @[[UIColor whiteColor],
                         [UIColor blackColor]];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    //Workaround for UIScrollViewDelegate firing scrollViewDidScroll: a couple times
-    //during the loading process.
-    self.isCurrentlyScrolling = NO;
 }
 
 #pragma mark - Table View Data Source
@@ -147,30 +137,6 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self showDetailForIndexPath:indexPath fromDelegateButtonAtIndex:-1];
-}
-
-#pragma mark - UIScrollViewDelegate
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    self.isCurrentlyScrolling = NO;
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    if (!decelerate) {
-        self.isCurrentlyScrolling = NO;
-    }
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    self.isCurrentlyScrolling = YES;
-}
-
-- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView
-{
-    self.isCurrentlyScrolling = NO;
 }
 
 #pragma mark - DNSSwipeableCellDataSource
@@ -261,11 +227,6 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
 }
 
 #pragma mark Optional Methods
-
-- (BOOL)shouldPreventOpening
-{
-    return self.isCurrentlyScrolling;
-}
 
 #pragma mark - DNSSwipeableCellDelegate
 
