@@ -11,6 +11,8 @@
 #import "DetailViewController.h"
 #import "DNSExampleImageViewCell.h"
 
+static NSInteger kSelectedRowInsteadOfButton = -1;
+
 @interface MasterViewController () <DNSSwipeableCellDelegate, DNSSwipeableCellDataSource>
 
 @property (nonatomic, strong) NSMutableArray *cellsCurrentlyEditing;
@@ -136,7 +138,7 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self showDetailForIndexPath:indexPath fromDelegateButtonAtIndex:-1];
+    [self showDetailForIndexPath:indexPath fromDelegateButtonAtIndex:kSelectedRowInsteadOfButton];
 }
 
 #pragma mark - DNSSwipeableCellDataSource
@@ -168,7 +170,6 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
 - (NSString *)swipeableCell:(DNSSwipeableCell *)cell titleForButtonAtIndex:(NSInteger)index
 {
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:cell.center];
-    
     switch (index) {
         case 0:
             return NSLocalizedString(@"Delete", @"Delete");
@@ -189,6 +190,8 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
 - (UIImage *)swipeableCell:(DNSSwipeableCell *)cell imageForButtonAtIndex:(NSInteger)index
 {
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:cell.center];
+    
+    //Return a user image for the first row only.
     if (indexPath.row == 0 && index == 1) {
         return [UIImage imageNamed:@"user"];
     } else {
@@ -264,7 +267,7 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     DetailViewController *detail = [storyboard instantiateViewControllerWithIdentifier:@"DetailViewController"];
     NSString *title = self.itemTitles[indexPath.row];
-    if (buttonIndex != -1) {
+    if (buttonIndex != kSelectedRowInsteadOfButton) {
         NSString *textForCellButton = [self swipeableCell:cell titleForButtonAtIndex:buttonIndex];
         title = [NSString stringWithFormat:@"%@: %@", title, textForCellButton];
     } else {
@@ -275,7 +278,7 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
     NSString *imageName = self.imageNames[indexPath.row % self.imageNames.count];
     detail.detailImage = [UIImage imageNamed:imageName];
     
-    if (buttonIndex == -1) {
+    if (buttonIndex == kSelectedRowInsteadOfButton) {
         detail.title = @"Selected!";
         [self.navigationController pushViewController:detail animated:YES];
     } else {

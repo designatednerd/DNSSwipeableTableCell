@@ -77,6 +77,7 @@
 {
     [super updateConstraints];
     if (!self.contentViewLeftConstraint) {
+        //Pin content view to left and right of screen, grab left and right constraints.
         NSDictionary *views = @{ @"myContentView" : self.myContentView };
         
         NSArray *verticalConstraints = [NSLayoutConstraint
@@ -175,18 +176,21 @@
         button.tintColor = [UIColor whiteColor];
     }
     
+    //Add 8pt of padding on the left and right.
     [button setContentEdgeInsets:UIEdgeInsetsMake(0, 8, 0, 8)];
     
     if ([self.dataSource respondsToSelector:@selector(swipeableCell:fontForButtonAtIndex:)]) {
+        //Set font if provided.
         button.titleLabel.font = [self.dataSource swipeableCell:self fontForButtonAtIndex:index];
     }
     
-    //Size it to fit the contents
+    //Size the button to fit the contents
     [button sizeToFit];
     
-    if (button.frame.size.width < 44.0f) {
+    CGFloat appleRecommendedMinimumTouchPointWidth = 44.0f;
+    if (button.frame.size.width < appleRecommendedMinimumTouchPointWidth) {
         CGRect frame = button.frame;
-        frame.size.width = 44.0f;
+        frame.size.width = appleRecommendedMinimumTouchPointWidth;
         button.frame = frame;
     }
     

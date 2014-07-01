@@ -11,6 +11,7 @@
 @class DNSSwipeableCell;
 
 #pragma mark - Data Source
+
 @protocol DNSSwipeableCellDataSource <NSObject>
 
 @required
