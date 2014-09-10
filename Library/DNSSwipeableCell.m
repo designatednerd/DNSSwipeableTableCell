@@ -42,6 +42,8 @@
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panThisCell:)];
     panRecognizer.delegate = self;
     [self.myContentView addGestureRecognizer:panRecognizer];
+    
+    [self layoutIfNeeded];
 }
 
 - (id)init
