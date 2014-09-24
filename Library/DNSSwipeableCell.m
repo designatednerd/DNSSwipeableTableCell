@@ -140,60 +140,71 @@
 
 - (UIButton *)buttonForIndex:(NSInteger)index previousButtonMinX:(CGFloat)previousMinX
 {
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIButton *button = nil;
     
-    if ([self.dataSource respondsToSelector:@selector(swipeableCell:backgroundColorForButtonAtIndex:)]) {
-        //Set background color from data source
-        button.backgroundColor = [self.dataSource swipeableCell:self  backgroundColorForButtonAtIndex:index];
+    /* The datasource implements buttonForIndex. Let's use custom buttom */
+    if ([self.dataSource respondsToSelector:@selector(swipeableCell:buttonForIndex:)]) {
+        
+        button = [self.dataSource swipeableCell:self buttonForIndex:index];
+        
+        /* Lets generate the button */
     } else {
-        //Use default colors
-        if (index == 0) {
-            button.backgroundColor = [UIColor redColor];
+        
+        button = [UIButton buttonWithType:UIButtonTypeCustom];
+        
+        if ([self.dataSource respondsToSelector:@selector(swipeableCell:titleForButtonAtIndex:)]) {
+            //use given title
+            [button setTitle:[self.dataSource swipeableCell:self titleForButtonAtIndex:index] forState:UIControlStateNormal];
         } else {
-            button.backgroundColor = [UIColor lightGrayColor];
+            //Default to empty title
+            [button setTitle:@"" forState:UIControlStateNormal];
         }
-    }
-    
-    if ([self.dataSource respondsToSelector:@selector(swipeableCell:titleForButtonAtIndex:)]) {
-        //use given title
-        [button setTitle:[self.dataSource swipeableCell:self titleForButtonAtIndex:index] forState:UIControlStateNormal];
-    } else {
-        //Default to empty title
-        [button setTitle:@"" forState:UIControlStateNormal];
-    }
-    
-    if ([self.dataSource respondsToSelector:@selector(swipeableCell:imageForButtonAtIndex:)]) {
-        //Use the image, if it exists
-        UIImage *iconImage = [self.dataSource swipeableCell:self imageForButtonAtIndex:index];
-        if (iconImage) {
-            [button setImage:[iconImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        
+        if ([self.dataSource respondsToSelector:@selector(swipeableCell:imageForButtonAtIndex:)]) {
+            //Use the image, if it exists
+            UIImage *iconImage = [self.dataSource swipeableCell:self imageForButtonAtIndex:index];
+            if (iconImage) {
+                [button setImage:[iconImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+            }
         }
-    }
-    
-    if ([self.dataSource respondsToSelector:@selector(swipeableCell:tintColorForButtonAtIndex:)]) {
-        //Use the given tint color. 
-        button.tintColor = [self.dataSource swipeableCell:self tintColorForButtonAtIndex:index];
-    } else {
-        //Default to white
-        button.tintColor = [UIColor whiteColor];
-    }
-    
-    //Add 8pt of padding on the left and right.
-    [button setContentEdgeInsets:UIEdgeInsetsMake(0, 8, 0, 8)];
-    
-    if ([self.dataSource respondsToSelector:@selector(swipeableCell:fontForButtonAtIndex:)]) {
-        //Set font if provided.
-        button.titleLabel.font = [self.dataSource swipeableCell:self fontForButtonAtIndex:index];
-    }
-    
-    //Size the button to fit the contents
-    [button sizeToFit];
-    
-    CGFloat appleRecommendedMinimumTouchPointWidth = 44.0f;
-    if (button.frame.size.width < appleRecommendedMinimumTouchPointWidth) {
-        CGRect frame = button.frame;
-        frame.size.width = appleRecommendedMinimumTouchPointWidth;
-        button.frame = frame;
+        
+        if ([self.dataSource respondsToSelector:@selector(swipeableCell:tintColorForButtonAtIndex:)]) {
+            //Use the given tint color.
+            button.tintColor = [self.dataSource swipeableCell:self tintColorForButtonAtIndex:index];
+        } else {
+            //Default to white
+            button.tintColor = [UIColor whiteColor];
+        }
+        
+        //Add 8pt of padding on the left and right.
+        [button setContentEdgeInsets:UIEdgeInsetsMake(0, 8, 0, 8)];
+        
+        if ([self.dataSource respondsToSelector:@selector(swipeableCell:fontForButtonAtIndex:)]) {
+            //Set font if provided.
+            button.titleLabel.font = [self.dataSource swipeableCell:self fontForButtonAtIndex:index];
+        }
+        
+        //Size the button to fit the contents
+        [button sizeToFit];
+        
+        CGFloat appleRecommendedMinimumTouchPointWidth = 44.0f;
+        if (button.frame.size.width < appleRecommendedMinimumTouchPointWidth) {
+            CGRect frame = button.frame;
+            frame.size.width = appleRecommendedMinimumTouchPointWidth;
+            button.frame = frame;
+        }
+        
+        if ([self.dataSource respondsToSelector:@selector(swipeableCell:backgroundColorForButtonAtIndex:)]) {
+            //Set background color from data source
+            button.backgroundColor = [self.dataSource swipeableCell:self  backgroundColorForButtonAtIndex:index];
+        } else {
+            //Use default colors
+            if (index == 0) {
+                button.backgroundColor = [UIColor redColor];
+            } else {
+                button.backgroundColor = [UIColor lightGrayColor];
+            }
+        }
     }
     
     //Update the origin and size to make sure that everything is the size it needs to be

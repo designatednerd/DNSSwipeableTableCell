@@ -27,11 +27,25 @@
 @optional
 
 /**
+ * The button at a given index in a particular swipeable cell.
+ *
+ * REMEMBER: Button indexes will be right to left since that's the way the cell
+ * slides open - for example | index 2  index 1  index 0 |.
+ *
+ * @param cell - The cell for which to find the button title
+ * @param index - The index of the button for which this string should be the title.
+ * @return The UIButton to display
+ */
+- (UIButton *)swipeableCell:(DNSSwipeableCell *)cell buttonForIndex:(NSInteger)index;
+
+/**
  * The title for the button at a given index in a particular swipeable cell. Defaults to
  * an empty string.
  *
  * REMEMBER: Button indexes will be right to left since that's the way the cell
  * slides open - for example | index 2  index 1  index 0 |.
+ * 
+ * Does nothing if -swipeableCell: buttonForIndex: implemented.
  *
  * @param cell - The cell for which to find the button title
  * @param index - The index of the button for which this string should be the title.
@@ -47,6 +61,8 @@
  * REMEMBER: Button indexes will be right to left since that's the way the cell
  * slides open - for example | index 2  index 1  index 0 |.
  *
+ * Does nothing if -swipeableCell: buttonForIndex: implemented.
+ *
  * @param cell - The cell for which to find the button background
  * @param index - The index of the button for which this color should be the backgroundColor.
  * @return The background color you wish to display.
@@ -59,6 +75,8 @@
  *
  * REMEMBER: Button indexes will be right to left since that's the way the cell
  * slides open - for example | index 2  index 1  index 0 |.
+ *
+ * Does nothing if -swipeableCell: buttonForIndex: implemented.
  *
  * @param cell - The cell for which to find the button tintColor
  * @param index - The index of the button for which this color should be the text color.
@@ -73,6 +91,8 @@
  * REMEMBER: Button indexes will be right to left since that's the way the cell
  * slides open - for example | index 2  index 1  index 0 |.
  *
+ * Does nothing if -swipeableCell: buttonForIndex: implemented.
+ *
  * @param cell - The cell for which you wish to find the button image.
  * @param index - The index of the button for which this should be the image.
  * @return The Image you wish to display.
@@ -85,6 +105,8 @@
  *
  * REMEMBER: Button indexes will be right to left since that's the way the cell
  * slides open - for example | index 2  index 1  index 0 |.
+ *
+ * Does nothing if -swipeableCell: buttonForIndex: implemented.
  *
  * @param cell - The cell for which you wish to find the font.
  * @param index - The index of the button for which this should be the font.
