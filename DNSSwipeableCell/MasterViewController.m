@@ -167,6 +167,17 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
 //    return [UIFont fontWithName:@"AmericanTypewriter" size:14.0f];
 //}
 
+//Uncomment to show fully custom button
+//- (UIButton *)swipeableCell:(DNSSwipeableCell *)cell buttonForIndex:(NSInteger)index
+//{
+//    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [button setTitle:@"Custom" forState:UIControlStateNormal];
+//    [button setFrame:CGRectMake(0.0f, 0.0f, 100.0f, 10.0f)];
+//    [button setBackgroundColor:[UIColor redColor]];
+//    
+//    return button;
+//}
+
 - (NSString *)swipeableCell:(DNSSwipeableCell *)cell titleForButtonAtIndex:(NSInteger)index
 {
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:cell.center];
