@@ -42,6 +42,8 @@
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panThisCell:)];
     panRecognizer.delegate = self;
     [self.myContentView addGestureRecognizer:panRecognizer];
+    
+    [self layoutIfNeeded];
 }
 
 - (id)init
@@ -329,7 +331,9 @@
     if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
         UIPanGestureRecognizer *panGesture = (UIPanGestureRecognizer*)gestureRecognizer;
         CGPoint velocity = [panGesture velocityInView:self.myContentView];
-        if (fabsf(velocity.x) > fabsf(velocity.y)) {
+        if (velocity.x > 0) {
+            return YES;
+        } else if (fabsf(velocity.x) > fabsf(velocity.y)) {
             return NO;
         }
     }
