@@ -62,7 +62,7 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
                               [UIColor darkGrayColor],
                               [UIColor purpleColor],
                               [UIColor lightGrayColor],
-                              [UIColor yellowColor]];
+                              ];
     
     self.textColors = @[[UIColor whiteColor],
                         [UIColor blackColor]];
@@ -160,7 +160,7 @@ static NSString * const kDNSExampleImageCellIdentifier = @"Cell";
 
 #pragma mark Optional Methods
 
-//Uncomment this optional styling method to muck around with the font.
+////Uncomment this optional styling method to muck around with the font.
 //- (UIFont *)swipeableCell:(DNSSwipeableCell *)cell fontForButtonAtIndex:(NSInteger)index
 //{
 //    //List of fonts available on iOS 7: http://support.apple.com/kb/HT5878
