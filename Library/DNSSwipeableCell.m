@@ -209,7 +209,7 @@
     
     //Update the origin and size to make sure that everything is the size it needs to be
     CGFloat xOrigin = previousMinX - CGRectGetWidth(button.frame);
-    button.frame = CGRectMake(xOrigin, 0, CGRectGetWidth(button.frame), CGRectGetHeight(self.frame));
+    button.frame = CGRectMake(xOrigin, 0, CGRectGetWidth(button.frame), CGRectGetHeight(self.contentView.frame));
     
     //Add tap target
     [button addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
