@@ -21,6 +21,11 @@ I've refactored the code that was included in the tutorial, which is is more mea
 * Added a sample subclass.
 * Added a bunch of photos of my cat, because the internet loves cats. 
 
+#Notes on Usage 
+
+* If you're using an accessory view via `accessoryType`, that view will automatically be removed and replaced when the cell is opened and closed (respectively). 
+* If you're using a custom background color for your `myContentView` along with an accessory, remember to set that same color as the backgorund color for the cell itself, or the accessory's going to have a different background color.
+
 ##//TODOs
 * ??? - File an issue!
 
