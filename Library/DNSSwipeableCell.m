@@ -15,6 +15,8 @@
 @property (nonatomic, assign) CGFloat startingRightLayoutConstraintConstant;
 @property (nonatomic, strong) NSLayoutConstraint *contentViewRightConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *contentViewLeftConstraint;
+@property (nonatomic) UITableViewCellAccessoryType myAccessoryType;
+@property (nonatomic) BOOL isMoving;
 
 @end
 
@@ -71,6 +73,33 @@
     }
     
     return self;
+}
+
+#pragma mark - Setter Overrides
+
+- (void)setAccessoryType:(UITableViewCellAccessoryType)accessoryType
+{
+    [super setAccessoryType:accessoryType];
+    
+    if (!self.isMoving) {
+        //If we're not moving, save the cell accessory type for when we are.
+        self.myAccessoryType = accessoryType;
+    }
+}
+
+- (void)setIsMoving:(BOOL)isMoving
+{
+    _isMoving = isMoving;
+    
+    if (_isMoving) {
+        //Set up to not have an accessory when moving so it doesn't cover buttons.
+        self.accessoryType = UITableViewCellAccessoryNone;
+    } else {
+        //Replace the accessory if we're closed. 
+        if (self.contentViewRightConstraint.constant == 0) {
+            self.accessoryType = self.myAccessoryType;
+        }
+    }
 }
 
 #pragma mark - Cell Lifecycle
@@ -293,6 +322,7 @@
     CGFloat buttonTotalWidth = [self buttonTotalWidth];
     if (self.startingRightLayoutConstraintConstant == buttonTotalWidth &&
         self.contentViewRightConstraint.constant == buttonTotalWidth) {
+        self.isMoving = NO;
         //Already all the way open, no bounce necessary
         return;
     }
@@ -302,6 +332,7 @@
     
     [self updateConstraintsIfNeeded:animated completion:^(BOOL finished) {
         self.startingRightLayoutConstraintConstant = self.contentViewRightConstraint.constant;
+        self.isMoving = NO;
     }];
 }
 
@@ -318,6 +349,8 @@
             [self removeButtonSubviews];
         }
         
+        self.isMoving = NO;
+        
         //Already all the way closed, no bounce necessary
         return;
     }
@@ -330,6 +363,8 @@
             //Remove the button subviews so they don't show through if the user selects this cell
             [self removeButtonSubviews];
         }
+        
+        self.isMoving = NO;
     }];
 }
 
@@ -383,6 +418,7 @@
             break;
         case UIGestureRecognizerStateChanged: {
             if(movingHorizontally) {
+                self.isMoving = YES;
                 if (!self.selected) {
                     [self configureButtonsIfNeeded];
                 }
