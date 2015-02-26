@@ -108,11 +108,7 @@
     [self resetConstraintContstantsToZero:NO notifyDelegateDidClose:NO];
     
     //Reset buttons
-    for (UIButton *button in self.buttons) {
-        [button removeFromSuperview];
-    }
-    [self.buttons removeAllObjects];
-    
+    [self removeButtonSubviews];
 }
 
 #pragma mark - Button Config
@@ -136,6 +132,15 @@
     if (self.buttons.count == 0) {
         [self configureButtons];
     }
+}
+
+- (void)removeButtonSubviews
+{
+    for (UIButton *button in self.buttons) {
+        [button removeFromSuperview];
+    }
+    
+    [self.buttons removeAllObjects];
 }
 
 - (UIButton *)buttonForIndex:(NSInteger)index previousButtonMinX:(CGFloat)previousMinX
@@ -307,6 +312,12 @@
     }
     if (self.startingRightLayoutConstraintConstant == 0 &&
         self.contentViewRightConstraint.constant == 0) {
+        
+        if (self.selectionStyle != UITableViewCellSelectionStyleNone) {
+            //Remove the button subviews so they don't show through if the user selects this cell
+            [self removeButtonSubviews];
+        }
+        
         //Already all the way closed, no bounce necessary
         return;
     }
@@ -315,6 +326,10 @@
     self.contentViewLeftConstraint.constant = 0;
     [self updateConstraintsIfNeeded:animated completion:^(BOOL finished) {
         self.startingRightLayoutConstraintConstant = self.contentViewRightConstraint.constant;
+        if (self.selectionStyle != UITableViewCellSelectionStyleNone) {
+            //Remove the button subviews so they don't show through if the user selects this cell
+            [self removeButtonSubviews];
+        }
     }];
 }
 
@@ -363,12 +378,15 @@
     
     switch (recognizer.state) {
         case UIGestureRecognizerStateBegan:
-            [self configureButtonsIfNeeded];
             self.panStartPoint = currentPoint;
             self.startingRightLayoutConstraintConstant = self.contentViewRightConstraint.constant;
             break;
         case UIGestureRecognizerStateChanged: {
             if(movingHorizontally) {
+                if (!self.selected) {
+                    [self configureButtonsIfNeeded];
+                }
+                
                 // Started by moving horizontally
                 CGFloat deltaX = currentPoint.x - self.panStartPoint.x;
                 BOOL panningLeft = NO;
