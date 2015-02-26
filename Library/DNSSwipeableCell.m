@@ -344,11 +344,8 @@
     if (self.startingRightLayoutConstraintConstant == 0 &&
         self.contentViewRightConstraint.constant == 0) {
         
-        if (self.selectionStyle != UITableViewCellSelectionStyleNone) {
-            //Remove the button subviews so they don't show through if the user selects this cell
-            [self removeButtonSubviews];
-        }
-        
+        //Remove the button subviews so they don't show through if the user selects this cell or has an accessory.
+        [self removeButtonSubviews];
         self.isMoving = NO;
         
         //Already all the way closed, no bounce necessary
@@ -359,11 +356,8 @@
     self.contentViewLeftConstraint.constant = 0;
     [self updateConstraintsIfNeeded:animated completion:^(BOOL finished) {
         self.startingRightLayoutConstraintConstant = self.contentViewRightConstraint.constant;
-        if (self.selectionStyle != UITableViewCellSelectionStyleNone) {
-            //Remove the button subviews so they don't show through if the user selects this cell
-            [self removeButtonSubviews];
-        }
-        
+        //Remove the button subviews so they don't show through if the user selects this cell or has an accessory.
+        [self removeButtonSubviews];
         self.isMoving = NO;
     }];
 }
