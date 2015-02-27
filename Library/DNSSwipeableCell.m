@@ -13,8 +13,6 @@
 @property (nonatomic, strong) NSMutableArray *buttons;
 @property (nonatomic, assign) CGPoint panStartPoint;
 @property (nonatomic, assign) CGFloat startingRightLayoutConstraintConstant;
-@property (nonatomic, strong) NSLayoutConstraint *contentViewRightConstraint;
-@property (nonatomic, strong) NSLayoutConstraint *contentViewLeftConstraint;
 @property (nonatomic) UITableViewCellAccessoryType myAccessoryType;
 @property (nonatomic) BOOL isMoving;
 
@@ -30,20 +28,25 @@
     //Setup button array
     self.buttons = [NSMutableArray array];
     
-    //setup content view
-    self.myContentView = [[UIView alloc] init];
-    self.myContentView.userInteractionEnabled = YES;
-    self.myContentView.clipsToBounds = YES;
-    
-    self.myContentView.backgroundColor = [UIColor whiteColor];
-    self.myContentView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    [self.contentView addSubview:self.myContentView];
+    //setup content view if one doesn't exist.
+    if (!self.myContentView) {
+        UIView *contentView = [[UIView alloc] init];
+        contentView.userInteractionEnabled = YES;
+        contentView.clipsToBounds = YES;
+        
+        contentView.backgroundColor = [UIColor whiteColor];
+        contentView.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        [self.contentView addSubview:contentView];
+        
+        self.myContentView = contentView;
+    }
     
     //Setup pan gesture recognizer
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panThisCell:)];
     panRecognizer.delegate = self;
     [self.myContentView addGestureRecognizer:panRecognizer];
+    
     
     [self layoutIfNeeded];
 }
@@ -57,13 +60,13 @@
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (void)awakeFromNib
 {
-    if (self = [super initWithCoder:aDecoder]) {
-        [self commonInit];
-    }
+    [super awakeFromNib];
     
-    return self;
+    //Note: Storyboard-based views must use awakeFromNib instead of initWithCoder:
+    //because otherwise none of the
+    [self commonInit];
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -123,10 +126,11 @@
                                           options:0
                                           metrics:0
                                           views:views];
-        self.contentViewLeftConstraint = horizontalConstraints[0];
-        self.contentViewRightConstraint = horizontalConstraints[1];
-        
         [self.contentView addConstraints:horizontalConstraints];
+        
+        //Save constraints once they've been added to the view.
+        self.contentViewLeftConstraint = horizontalConstraints[0];
+        self.contentViewRightConstraint = horizontalConstraints[1];        
     }
 }
 

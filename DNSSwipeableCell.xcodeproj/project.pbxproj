@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B2076F51A9FA46C00D08704 /* StoryboardTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2076F41A9FA46C00D08704 /* StoryboardTableViewController.m */; };
+		9B2076F81A9FA49400D08704 /* DNSStoryboardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2076F71A9FA49400D08704 /* DNSStoryboardCell.m */; };
+		9B2076FB1A9FA6D200D08704 /* SwipeableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2076FA1A9FA6D200D08704 /* SwipeableDataSource.m */; };
 		9BF394EB18C433CD00E1CB12 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 9BF394EA18C433CD00E1CB12 /* README.md */; };
 		9BF394EE18C58B0600E1CB12 /* DNSExampleImageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BF394ED18C58B0600E1CB12 /* DNSExampleImageViewCell.m */; };
 		9BF394F618C58D6300E1CB12 /* annoyed.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9BF394F018C58D6300E1CB12 /* annoyed.jpg */; };
@@ -44,6 +47,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9B2076F31A9FA46C00D08704 /* StoryboardTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryboardTableViewController.h; sourceTree = "<group>"; };
+		9B2076F41A9FA46C00D08704 /* StoryboardTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryboardTableViewController.m; sourceTree = "<group>"; };
+		9B2076F61A9FA49400D08704 /* DNSStoryboardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DNSStoryboardCell.h; sourceTree = "<group>"; };
+		9B2076F71A9FA49400D08704 /* DNSStoryboardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DNSStoryboardCell.m; sourceTree = "<group>"; };
+		9B2076F91A9FA6D200D08704 /* SwipeableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwipeableDataSource.h; sourceTree = "<group>"; };
+		9B2076FA1A9FA6D200D08704 /* SwipeableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwipeableDataSource.m; sourceTree = "<group>"; };
 		9BF394EA18C433CD00E1CB12 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		9BF394EC18C58B0600E1CB12 /* DNSExampleImageViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DNSExampleImageViewCell.h; sourceTree = "<group>"; };
 		9BF394ED18C58B0600E1CB12 /* DNSExampleImageViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DNSExampleImageViewCell.m; sourceTree = "<group>"; };
@@ -163,10 +172,16 @@
 				F5C72C16184771F90019502F /* Main.storyboard */,
 				F5C72C19184771F90019502F /* MasterViewController.h */,
 				F5C72C1A184771F90019502F /* MasterViewController.m */,
+				9B2076F31A9FA46C00D08704 /* StoryboardTableViewController.h */,
+				9B2076F41A9FA46C00D08704 /* StoryboardTableViewController.m */,
 				F5C72C1C184771F90019502F /* DetailViewController.h */,
 				F5C72C1D184771F90019502F /* DetailViewController.m */,
+				9B2076F91A9FA6D200D08704 /* SwipeableDataSource.h */,
+				9B2076FA1A9FA6D200D08704 /* SwipeableDataSource.m */,
 				9BF394EC18C58B0600E1CB12 /* DNSExampleImageViewCell.h */,
 				9BF394ED18C58B0600E1CB12 /* DNSExampleImageViewCell.m */,
+				9B2076F61A9FA49400D08704 /* DNSStoryboardCell.h */,
+				9B2076F71A9FA49400D08704 /* DNSStoryboardCell.m */,
 				9BF394FE18C5A4A000E1CB12 /* Library */,
 				9BF394EF18C58D6300E1CB12 /* instagrams */,
 				9BF394FC18C5A0DD00E1CB12 /* Assets.xcassets */,
@@ -312,6 +327,9 @@
 				F5C72C15184771F90019502F /* AppDelegate.m in Sources */,
 				F5C72C1B184771F90019502F /* MasterViewController.m in Sources */,
 				9BF394EE18C58B0600E1CB12 /* DNSExampleImageViewCell.m in Sources */,
+				9B2076F81A9FA49400D08704 /* DNSStoryboardCell.m in Sources */,
+				9B2076FB1A9FA6D200D08704 /* SwipeableDataSource.m in Sources */,
+				9B2076F51A9FA46C00D08704 /* StoryboardTableViewController.m in Sources */,
 				F5C72C11184771F90019502F /* main.m in Sources */,
 				F5C72C1E184771F90019502F /* DetailViewController.m in Sources */,
 			);

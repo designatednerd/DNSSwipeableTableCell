@@ -153,7 +153,9 @@
  */
 @interface DNSSwipeableCell : UITableViewCell
 
-@property (nonatomic, strong) UIView *myContentView;
+@property (nonatomic, weak) IBOutlet UIView *myContentView;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *contentViewRightConstraint;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *contentViewLeftConstraint;
 
 //The delegate and datasource.
 @property (nonatomic, weak) id <DNSSwipeableCellDelegate> delegate;
