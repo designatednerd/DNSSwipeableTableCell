@@ -392,7 +392,7 @@
         CGPoint velocity = [panGesture velocityInView:self.myContentView];
         if (velocity.x > 0) {
             return YES;
-        } else if (fabsf(velocity.x) > fabsf(velocity.y)) {
+        } else if (fabs(velocity.x) > fabs(velocity.y)) {
             return NO;
         }
     }
@@ -409,7 +409,7 @@
     CGPoint velocity = [recognizer velocityInView:self.myContentView];
 
     //Check what direction the swipe is moving by checking the velocity
-    BOOL movingHorizontally = fabsf(velocity.y) < fabsf(velocity.x);
+    BOOL movingHorizontally = fabs(velocity.y) < fabs(velocity.x);
     
     switch (recognizer.state) {
         case UIGestureRecognizerStateBegan:
