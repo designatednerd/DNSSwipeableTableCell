@@ -24,7 +24,7 @@ I've refactored the code that was included in the tutorial, which is is more mea
 #Notes on Usage 
 
 * If you're using an accessory view via `accessoryType`, that view will automatically be removed and replaced when the cell is opened and closed (respectively). 
-* If you're using a custom background color for your `myContentView` along with an accessory, remember to set that same color as the backgorund color for the cell itself, or the accessory's going to have a different background color.
+* If you're using a custom background color for your `myContentView` along with an accessory, remember to set that same color as the background color for the cell itself, or the accessory's going to have a different background color.
 * If you're using a cell from a storyboard or a `.xib`, you have to add a `myContentView` view, and hook up the `NSLayoutConstraint` outlets to the left and right constraints. See the sample project for an example of how to set this up.
 * If you're using a cell from a storyboard or a `.xib`, make sure you're sending any calls to the superclass during setup which need `myContentView` to not be `nil` through `awakeFromNib` instead of `initWithCoder:`, since the `IBOutlet` won't be hooked up until `awakeFromNib` has fired. 
 
